@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -45,6 +45,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
+  const axios = require('axios');
+  const [Data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/').then((resp) => {
+      setData(resp.data);
+      console.log(Data[0].email)
+    });
+  }, []);
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -70,10 +79,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {Data[0].username}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+              {Data[0].email}
               </Typography>
             </Box>
           </AccountStyle>

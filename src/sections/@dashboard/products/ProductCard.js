@@ -4,10 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
-import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/Label';
-import { ColorPreview } from '../../../components/color-utils';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +24,9 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { CarName, imgsSrc, Price, colors, Status, priceSale } = product;
+  const { CarName, Image, Price, colors, Status, priceSale } = product;
+console.log('image',Image.data)
+
 
   return (
     <Card>
@@ -46,7 +46,7 @@ export default function ShopProductCard({ product }) {
             {Status==='true'&&'sale'}
           </Label>
         )}
-        <ProductImgStyle alt={CarName} src={imgsSrc} />
+        <ProductImgStyle alt={CarName} src={String.fromCodePoint(...Image.data)} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

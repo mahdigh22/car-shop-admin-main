@@ -12,7 +12,7 @@ export default function NewCar() {
   const navigate = useNavigate();
   const axios = require('axios');
   const [Status, setStatus] = React.useState(true);
-  const [imgsSrc, setImgsSrc] = useState();
+  const [imgsSrc, setImgsSrc] = useState([]);
   const [CarName, setCarName] = useState();
   const [Model, setModel] = useState();
   const [Price, setPrice] = useState();
