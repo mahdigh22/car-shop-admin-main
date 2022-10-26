@@ -25,10 +25,12 @@ ShopProductCard.propTypes = {
 
 export default function ShopProductCard({ product }) {
   const { CarName, Image, Price, colors, Status, priceSale } = product;
-console.log('image',Image.data)
+  console.log('buffer',Image.data)
+  const test=String.fromCodePoint(...Image.data)
+console.log('image', test)
 
 
-  return (
+  return ( 
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {Status==='true' && (

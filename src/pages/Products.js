@@ -23,7 +23,7 @@ export default function EcommerceShop() {
     axios.get('http://localhost:5000/products').then(resp => {
 
      setProducts(resp.data);
-     console.log(Products[5].Image.data)
+    //  console.log(Products[5].Image.data)
   });
   },[]);
 

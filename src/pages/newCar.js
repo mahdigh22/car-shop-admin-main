@@ -23,14 +23,15 @@ export default function NewCar() {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        setImgsSrc( reader.result);
+        setImgsSrc((imgsSrc) => [reader.result+'==']);
+        // console.log('reader',reader.result);
       };
       reader.onerror = () => {
         console.log(reader.error);
       };
     }
   };
-
+  console.log('reader',imgsSrc)
   const [allDetails, setAllDetails] = useState({
     imgsSrc: '',
     CarName: '',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { set, sub } from 'date-fns';
 import { noCase } from 'change-case';
 import { faker } from '@faker-js/faker';
-import { useState, useRef } from 'react';
+import { useState, useRef,useEffect } from 'react';
 // @mui
 import {
   Box,
@@ -78,10 +78,18 @@ const NOTIFICATIONS = [
 
 export default function NotificationsPopover() {
   const anchorRef = useRef(null);
+  const [message, setmessage] = useState([]);
+  const axios = require('axios');
+  useEffect(() => {
+    axios.get('http://localhost:5000/message').then(resp => {
 
+      setmessage(resp.data);
+   
+  });
+  },[]);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = message.length;
 
   const [open, setOpen] = useState(null);
 
@@ -149,23 +157,12 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
+            {notifications.map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
 
-          <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Before that
-              </ListSubheader>
-            }
-          >
-            {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
-            ))}
-          </List>
+        
         </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
