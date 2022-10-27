@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { set, sub } from 'date-fns';
 import { noCase } from 'change-case';
 import { faker } from '@faker-js/faker';
-import { useState, useRef,useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // @mui
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   ListItemAvatar,
   ListItemButton,
 } from '@mui/material';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 // utils
 import { fToNow } from '../../utils/formatTime';
 // components
@@ -81,16 +82,15 @@ export default function NotificationsPopover() {
   const [message, setmessage] = useState([]);
   const axios = require('axios');
   useEffect(() => {
-    axios.get('http://localhost:5000/message').then(resp => {
-
+    axios.get('http://localhost:5000/message').then((resp) => {
       setmessage(resp.data);
-   
-  });
-  },[]);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+    });
+  }, []);
+
+  const [notifications, setNotifications] = useState(message);
 
   const totalUnRead = message.length;
-
+  console.log(notifications);
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -157,12 +157,13 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+            {message.map((notification,index) => (
+              <>
+                <NotificationItem key={index} notification={notification} />
+                
+              </>
             ))}
           </List>
-
-        
         </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -179,37 +180,27 @@ export default function NotificationsPopover() {
 
 // ----------------------------------------------------------------------
 
-NotificationItem.propTypes = {
-  notification: PropTypes.shape({
-    createdAt: PropTypes.instanceOf(Date),
-    id: PropTypes.string,
-    isUnRead: PropTypes.bool,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    avatar: PropTypes.any,
-  }),
-};
-
-function NotificationItem({ notification }) {
-  const { avatar, title } = renderContent(notification);
-
+function NotificationItem(props) {
+  const { notification } = props;
+  console.log('nott', notification);
   return (
     <ListItemButton
       sx={{
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isUnRead && {
-          bgcolor: 'action.selected',
-        }),
+        // ...(notification.isUnRead && {
+        //   bgcolor: 'action.selected',
+        // }),
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
+        <Avatar>
+          <NotificationsNoneIcon />
+        </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={title}
+        primary={notification.fullname}
         secondary={
           <Typography
             variant="caption"
@@ -221,7 +212,8 @@ function NotificationItem({ notification }) {
             }}
           >
             <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {fToNow(notification.createdAt)}
+            {/* {fToNow(notification.createdAt)} */}
+            {notification.fullname}
           </Typography>
         }
       />
