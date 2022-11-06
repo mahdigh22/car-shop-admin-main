@@ -24,10 +24,8 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { CarName, Image, Price, colors, Status, priceSale } = product;
-  console.log('buffer',Image.data)
-  const test=String.fromCodePoint(...Image.data)
-console.log('image', test)
+  const { CarName,  Price, colors, Status, priceSale } = product;
+  
 
 
   return ( 
@@ -48,7 +46,7 @@ console.log('image', test)
             {Status==='true'&&'sale'}
           </Label>
         )}
-        <ProductImgStyle alt={CarName} src={String.fromCodePoint(...Image.data)} />
+        {/* <ProductImgStyle alt={CarName} src={String.fromCodePoint(...Image.data)} /> */}
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
