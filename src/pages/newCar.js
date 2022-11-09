@@ -1,7 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, Button, TextField, Box, Stack, Typography, Divider } from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -25,49 +25,43 @@ export default function NewCar() {
   function handleChange(event) {
     // setFile(event.target.files);
     setFile([event.target.files]);
-    
   }
 
+  //  console.log('files',file[0])
 
-//  console.log('files',file[0])
- 
   const uploadFiles = (files) => {
-    const promises = []
+    const promises = [];
     // console.log('fil',files[0])
-
-      for (let i = 0; i < files[0]?.length; i++) {
+    setImgsSrc([]);
+    for (let i = 0; i < files[0]?.length; i++) {
       // console.log('loop',files[0][i].name);
-     
-        const sotrageRef = ref(storage, `files/${files[0][i].name}`);
 
-        const uploadTask = uploadBytesResumable(sotrageRef, files[0][i]);
-      
-        promises.push(uploadTask)
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const prog = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(prog);
-            },
-            (error) => console.log(error),
-            async () => {
-                await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
-                  setImgsSrc(prevState => [...prevState, downloadURLs])
-                    // console.log("File available at", downloadURLs);
-                });
-            }
-        );
+      const sotrageRef = ref(storage, `files/${files[0][i].name}`);
 
+      const uploadTask = uploadBytesResumable(sotrageRef, files[0][i]);
 
-          }
+      promises.push(uploadTask);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
+            setImgsSrc((prevState) => [...prevState, downloadURLs]);
+            // console.log("File available at", downloadURLs);
+          });
+        }
+      );
+    }
     Promise.all(promises)
-        .then(() => alert('All images uploaded'))
-        .then(err => console.log(err))
+      .then(() => alert('All images uploaded'))
 
-};
-console.log('img',imgsSrc)
+      .then((err) => console.log(err));
+  };
+  // console.log('img', imgsSrc);
   const [allDetails, setAllDetails] = useState({
     imgsSrc: [],
     CarName: '',
@@ -76,12 +70,8 @@ console.log('img',imgsSrc)
     Description: '',
     Status: '',
   });
-  const changeHandler = (e) => {
-    uploadFiles(file);
-    setImgsSrc([])
-    
 
-    setFile([])
+  useEffect(() => {
     setAllDetails({
       ...allDetails,
       imgsSrc: imgsSrc,
@@ -91,6 +81,24 @@ console.log('img',imgsSrc)
       Description: Description,
       Status: Status,
     });
+  });
+  const changeHandler = (e) => {
+    // setImgsSrc([]);
+
+    // setFile([]);
+    console.log('img', imgsSrc);
+    
+    setAllDetails({
+      ...allDetails,
+      imgsSrc: imgsSrc,
+      CarName: CarName,
+      Model: Model,
+      Price: Price,
+      Description: Description,
+      Status: Status,
+    });
+    
+
     axios
       .post('http://localhost:5000/hello', {
         allDetails,
@@ -101,6 +109,8 @@ console.log('img',imgsSrc)
       .catch(function (error) {
         console.log(error);
       });
+      
+      console.log('allDetails', allDetails);
   };
   // console.log('all',allDetails);
 
@@ -121,6 +131,15 @@ console.log('img',imgsSrc)
               <Button variant="outlined" component="label" sx={{ width: 180, height: 200 }}>
                 <UploadIcon /> Upload Images
                 <input hidden accept="image/*" multiple type="file" onChange={handleChange} />
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  uploadFiles(file);
+                }}
+              >
+                upload Images
               </Button>
             </Grid>
             <Grid item xs={12} md={9}>
@@ -180,7 +199,7 @@ console.log('img',imgsSrc)
                 <Button variant="outlined" size="large" onClick={cancelRequest}>
                   Cancel
                 </Button>
-                <Button variant="contained" size="large" onClick={changeHandler} >
+                <Button variant="contained" size="large" onClick={changeHandler}>
                   Save
                 </Button>
               </Stack>
