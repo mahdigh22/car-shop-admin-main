@@ -46,7 +46,7 @@ export default function ShopProductCard({ product }) {
             {Status==='true'&&'sale'}
           </Label>
         )}
-        <ProductImgStyle alt={CarName} src={images[1]} />
+        <ProductImgStyle alt={CarName} src={images[0]} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

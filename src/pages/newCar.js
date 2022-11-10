@@ -111,6 +111,7 @@ export default function NewCar() {
       });
       
       console.log('allDetails', allDetails);
+      navigate('/dashboard/products');
   };
   // console.log('all',allDetails);
 
