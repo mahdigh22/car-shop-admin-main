@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import NewCar from './pages/newCar';
 import DashboardApp from './pages/DashboardApp';
+import Deals from './pages/deals';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'newCar', element: <NewCar /> },
+        { path: 'deals', element: <Deals /> },
         
       ],
     },

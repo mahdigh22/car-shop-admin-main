@@ -87,7 +87,7 @@ export default function NewCar() {
 
     // setFile([]);
     console.log('img', imgsSrc);
-    
+
     setAllDetails({
       ...allDetails,
       imgsSrc: imgsSrc,
@@ -97,7 +97,6 @@ export default function NewCar() {
       Description: Description,
       Status: Status,
     });
-    
 
     axios
       .post('http://localhost:5000/hello', {
@@ -109,9 +108,9 @@ export default function NewCar() {
       .catch(function (error) {
         console.log(error);
       });
-      
-      console.log('allDetails', allDetails);
-      navigate('/dashboard/products');
+
+    console.log('allDetails', allDetails);
+    navigate('/dashboard/products');
   };
   // console.log('all',allDetails);
 
@@ -122,7 +121,7 @@ export default function NewCar() {
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Card sx={{ p: 2, width: '80%' }}>
+        <Card sx={{ p: 2, width: '100%' }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Add New Car
           </Typography>
@@ -145,15 +144,26 @@ export default function NewCar() {
             </Grid>
             <Grid item xs={12} md={9}>
               <Stack direction="column" spacing={2}>
-                <TextField
+                <Stack direction="row" spacing={1}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Car Name"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setCarName(e.target.value);
+                    }}
+                  /><TextField
                   id="outlined-basic"
-                  label="Car Name"
+                  label="Location"
                   variant="outlined"
                   fullWidth
-                  onChange={(e) => {
-                    setCarName(e.target.value);
-                  }}
+                  // onChange={(e) => {
+                  //   setCarName(e.target.value);
+                  // }}
                 />
+                </Stack>
+                <Stack direction="row" spacing={1}>
                 <TextField
                   id="outlined-basic"
                   label="Model"
@@ -165,14 +175,82 @@ export default function NewCar() {
                 />
                 <TextField
                   id="outlined-basic"
+                  label="Transmission"
+                  variant="outlined"
+                  fullWidth
+                  // onChange={(e) => {
+                  //   setModel(e.target.value);
+                  // }}
+                />
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                <TextField
+                  id="outlined-basic"
                   label="Price"
                   variant="outlined"
                   fullWidth
                   type="number"
+                  
                   onChange={(e) => {
                     setPrice(e.target.value);
                   }}
                 />
+                <TextField
+                  id="outlined-basic"
+                  label="Exterior Color"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  // onChange={(e) => {
+                  //   setPrice(e.target.value);
+                  // }}
+                />
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                <TextField
+                  id="outlined-basic"
+                  label="Interior Color"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  // onChange={(e) => {
+                  //   setPrice(e.target.value);
+                  // }}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Fuel Type"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  // onChange={(e) => {
+                  //   setPrice(e.target.value);
+                  // }}
+                />
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                <TextField
+                  id="outlined-basic"
+                  label="Seats"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  // onChange={(e) => {
+                  //   setPrice(e.target.value);
+                  // }}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Drivetrain"
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  // onChange={(e) => {
+                  //   setPrice(e.target.value);
+                  // }}
+                />
+                </Stack>
+                
                 <TextField
                   id="outlined-basic"
                   label="Description"

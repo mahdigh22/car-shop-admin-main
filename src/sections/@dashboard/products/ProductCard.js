@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 // components
@@ -31,6 +31,20 @@ export default function ShopProductCard({ product }) {
   return ( 
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
+      <Label
+            variant="filled"
+            color= 'error'
+            sx={{
+              zIndex: 9,
+              top: 16,
+              right: 160,
+              position: 'absolute',
+              textTransform: 'uppercase',
+            }}
+            
+          >
+            Edit
+          </Label>
         {Status==='true' && (
           <Label
             variant="filled"
