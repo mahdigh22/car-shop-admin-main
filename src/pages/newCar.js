@@ -18,6 +18,13 @@ export default function NewCar() {
   const [CarName, setCarName] = useState();
   const [Model, setModel] = useState();
   const [Price, setPrice] = useState();
+  const [Location, setLocation] = useState();
+  const [Transmission, setTransmission] = useState();
+  const [ExteriorColor, setExteriorColor] = useState();
+  const [InteriorColor, setInteriorColor] = useState();
+  const [FuelType, setFuelType] = useState();
+  const [Seats, setSeats] = useState();
+  const [Drivetrain, setDrivetrain] = useState();
   const [Description, setDescription] = useState();
   const [file, setFile] = useState([]);
   const [progress, setProgress] = useState();
@@ -69,6 +76,13 @@ export default function NewCar() {
     Price: '',
     Description: '',
     Status: '',
+    Location: '',
+    Transmission: '',
+    ExteriorColor: '',
+    InteriorColor: '',
+    FuelType: '',
+    Seats: '',
+    Drivetrain: '',
   });
 
   useEffect(() => {
@@ -80,6 +94,13 @@ export default function NewCar() {
       Price: Price,
       Description: Description,
       Status: Status,
+      Location: Location,
+      Transmission: Transmission,
+      ExteriorColor: ExteriorColor,
+      InteriorColor: InteriorColor,
+      FuelType: FuelType,
+      Seats: Seats,
+      Drivetrain: Drivetrain,
     });
   });
   const changeHandler = (e) => {
@@ -96,6 +117,13 @@ export default function NewCar() {
       Price: Price,
       Description: Description,
       Status: Status,
+      Location: Location,
+      Transmission: Transmission,
+      ExteriorColor: ExteriorColor,
+      InteriorColor: InteriorColor,
+      FuelType: FuelType,
+      Seats: Seats,
+      Drivetrain: Drivetrain,
     });
 
     axios
@@ -153,104 +181,100 @@ export default function NewCar() {
                     onChange={(e) => {
                       setCarName(e.target.value);
                     }}
-                  /><TextField
-                  id="outlined-basic"
-                  label="Location"
-                  variant="outlined"
-                  fullWidth
-                  // onChange={(e) => {
-                  //   setCarName(e.target.value);
-                  // }}
-                />
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Location"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setLocation(e.target.value);
+                    }}
+                  />
                 </Stack>
                 <Stack direction="row" spacing={1}>
-                <TextField
-                  id="outlined-basic"
-                  label="Model"
-                  variant="outlined"
-                  fullWidth
-                  onChange={(e) => {
-                    setModel(e.target.value);
-                  }}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Transmission"
-                  variant="outlined"
-                  fullWidth
-                  // onChange={(e) => {
-                  //   setModel(e.target.value);
-                  // }}
-                />
+                  <TextField
+                    id="outlined-basic"
+                    label="Model"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setModel(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Transmission"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setTransmission(e.target.value);
+                    }}
+                  />
                 </Stack>
                 <Stack direction="row" spacing={1}>
-                <TextField
-                  id="outlined-basic"
-                  label="Price"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  
-                  onChange={(e) => {
-                    setPrice(e.target.value);
-                  }}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Exterior Color"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  // onChange={(e) => {
-                  //   setPrice(e.target.value);
-                  // }}
-                />
+                  <TextField
+                    id="outlined-basic"
+                    label="Price"
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Exterior Color"
+                    variant="outlined"
+                    fullWidth
+                    type="text"
+                    onChange={(e) => {
+                      setExteriorColor(e.target.value);
+                    }}
+                  />
                 </Stack>
                 <Stack direction="row" spacing={1}>
-                <TextField
-                  id="outlined-basic"
-                  label="Interior Color"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  // onChange={(e) => {
-                  //   setPrice(e.target.value);
-                  // }}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Fuel Type"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  // onChange={(e) => {
-                  //   setPrice(e.target.value);
-                  // }}
-                />
+                  <TextField
+                    id="outlined-basic"
+                    label="Interior Color"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setInteriorColor(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Fuel Type"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setFuelType(e.target.value);
+                    }}
+                  />
                 </Stack>
                 <Stack direction="row" spacing={1}>
-                <TextField
-                  id="outlined-basic"
-                  label="Seats"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  // onChange={(e) => {
-                  //   setPrice(e.target.value);
-                  // }}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Drivetrain"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  // onChange={(e) => {
-                  //   setPrice(e.target.value);
-                  // }}
-                />
+                  <TextField
+                    id="outlined-basic"
+                    label="Seats"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setSeats(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Drivetrain"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => {
+                      setDrivetrain(e.target.value);
+                    }}
+                  />
                 </Stack>
-                
+
                 <TextField
                   id="outlined-basic"
                   label="Description"
