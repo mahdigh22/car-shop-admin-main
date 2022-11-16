@@ -1,5 +1,5 @@
 /* eslint-disable  */
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 
@@ -19,37 +19,42 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const axios = require('axios');
   const [Data, setData] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/').then((resp) => {
-      setData(resp.data);
-      console.log(Data[0]?.email);
-    });
-  }, []);
-
   const [Email, setEmail] = useState();
   const [Pass, setPass] = useState();
+  const [res, setRes] = useState();
+
   const saveEmail = (event) => {
     setEmail(event.target.value);
   };
   const savePass = (event) => {
     setPass(event.target.value);
   };
-
- const CheckIfValid=()=> {
-
-    if (Data[0]?.email === Email && Data[0]?.password === Pass) {
+  useEffect(() => {
+    axios
+      .post('http://localhost:5000/login', {
+        Email,
+        Pass,
+      })
+      .then(function (response) {
+        setRes(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  });
+  const CheckIfValid = () => {
+    
+      console.log(res);
+    if (res == 'Done') {
       return navigate('/dashboard/app');
     }
     return navigate('/login');
-  }
-   
-  
+  };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address"   onChange={saveEmail} />
+        <TextField name="email" label="Email address" onChange={saveEmail} />
 
         <TextField
           name="password"
@@ -78,6 +83,6 @@ export default function LoginForm() {
       <Button fullWidth size="large" type="submit" variant="contained" onClick={CheckIfValid}>
         Login
       </Button>
-      </>
+    </>
   );
 }

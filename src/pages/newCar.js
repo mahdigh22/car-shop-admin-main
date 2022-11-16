@@ -127,7 +127,7 @@ export default function NewCar() {
     });
 
     axios
-      .post('http://localhost:5000/hello', {
+      .post('http://localhost:5000/login', {
         allDetails,
       })
       .then(function (response) {
