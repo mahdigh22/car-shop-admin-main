@@ -82,7 +82,7 @@ export default function NotificationsPopover() {
   const [message, setmessage] = useState([]);
   const axios = require('axios');
   useEffect(() => {
-    axios.get('http://localhost:5000/message').then((resp) => {
+    axios.get('https://carshopserver.vercel.app/message').then((resp) => {
       setmessage(resp.data);
     });
   }, []);

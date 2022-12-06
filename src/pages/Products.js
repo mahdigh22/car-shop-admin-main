@@ -20,7 +20,7 @@ export default function EcommerceShop() {
    const axios = require('axios');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products').then(resp => {
+    axios.get('https://carshopserver.vercel.app/products').then(resp => {
 
      setProducts(resp.data);
     //  console.log(Products[5].Image.data)
