@@ -8,8 +8,10 @@ import { styled } from '@mui/material/styles';
 
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-
+import EditCar from '../../../components/editCar';
 import Label from '../../../components/Label';
+
+
 
 
 // ----------------------------------------------------------------------
@@ -18,9 +20,9 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 700,height:'100%',
   bgcolor: 'background.paper',
-
+  overflow: "scroll",
   boxShadow: 24,
   p: 4,
 };
@@ -53,7 +55,7 @@ export default function ShopProductCard({ product }) {
     InteriorColor,
     FuelType,
     Seats,
-    Drivetrain,
+    Drivetrain,id
   } = product;
   const images = Image.split(',');
   const priceSale = Price - 10;
@@ -69,7 +71,7 @@ export default function ShopProductCard({ product }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <NewCar/> */}
+          <EditCar id={id}/>
         </Box>
       </Modal>
       <Box sx={{ pt: '100%', position: 'relative' }}>

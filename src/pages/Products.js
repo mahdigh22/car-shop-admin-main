@@ -25,7 +25,7 @@ export default function EcommerceShop() {
      setProducts(resp.data);
     //  console.log(Products[5].Image.data)
   });
-  },[]);
+  });
   console.log('pro',Products[0]?.Image.split(','))
   const handleOpenFilter = () => {
     setOpenFilter(true);

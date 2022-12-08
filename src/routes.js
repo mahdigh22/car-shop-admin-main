@@ -9,7 +9,7 @@ import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
-import NewCar from './pages/newCar';
+import NewCar from './components/newCar';
 import DashboardApp from './pages/DashboardApp';
 import Deals from './pages/deals';
 
