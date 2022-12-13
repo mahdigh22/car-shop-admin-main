@@ -157,8 +157,9 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {message.map((notification,index) => (
+            {message?.map((notification,index) => (
               <>
+              
                 <NotificationItem key={index} notification={notification} />
                 
               </>

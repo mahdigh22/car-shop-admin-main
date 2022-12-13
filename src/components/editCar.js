@@ -36,7 +36,16 @@ export default function EditCar(props) {
     // setFile(event.target.files);
     setFile([event.target.files]);
   }
-
+useEffect(() => {
+    axios
+      .get('https://carshopserver.vercel.app/carId', { params: { id } })
+      .then(function (response) {
+        setEditCarData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   const uploadFiles = (files) => {
     const promises = [];
     // console.log('fil',files[0])
@@ -69,7 +78,7 @@ export default function EditCar(props) {
 
       .then((err) => console.log(err));
   };
-  // console.log('img', imgsSrc);
+  console.log('img', EditCarData[0]);
   const [allDetails, setAllDetails] = useState({
     imgsSrc: [],
     CarName: '',
@@ -84,7 +93,7 @@ export default function EditCar(props) {
     FuelType: '',
     Seats: '',
     Drivetrain: '',
-  });
+  },[]);
 
   useEffect(() => {
     setAllDetails({
@@ -128,29 +137,20 @@ export default function EditCar(props) {
     });
 
     axios
-      .post('https://carshopserver.vercel.app/hello', {
-        allDetails,
+      .post('https://carshopserver.vercel.app/hello2', {
+        allDetails,id
       })
       .then(function (response) {
-        // console.log(response);
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
 
     console.log('allDetails', allDetails);
-    navigate('/dashboard/products');
+    window.location.reload();
   };
-  useEffect(() => {
-    axios
-      .get('https://carshopserver.vercel.app/carId', { params: { id } })
-      .then(function (response) {
-        setEditCarData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+  
   // console.log('all',allDetails);
   // console.log('id',id)
   const cancelRequest = () => {
@@ -167,7 +167,7 @@ export default function EditCar(props) {
           </Typography>
           <Divider sx={{ mb: 2 }} />
           <Grid container>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={12} sx={{mb:1,gap:3}} display='flex'  alignItems='center' >
               <Button variant="outlined" component="label" sx={{ width: 180, height: 200 }}>
                 <UploadIcon /> Upload Images
                 <input hidden accept="image/*" multiple type="file" onChange={handleChange} />
@@ -190,7 +190,7 @@ export default function EditCar(props) {
                       label="Car Name"
                       variant="outlined"
                       fullWidth
-                      value={EditCarData[0]?.CarName}
+                      // value={EditCarData[0]?.CarName}
                       onChange={(e) => {
                         setCarName(e.target.value);
                       }}
@@ -328,9 +328,9 @@ export default function EditCar(props) {
                   <Button variant="outlined" size="large" onClick={cancelRequest}>
                     Cancel
                   </Button>
-                  {/* <Button variant="contained" size="large" onClick={changeHandler}>
-                    Save
-                  </Button> */}
+                  <Button variant="contained" size="large" onClick={changeHandler}>
+                    Edit
+                  </Button>
                 </Stack>
             
             </Grid>
