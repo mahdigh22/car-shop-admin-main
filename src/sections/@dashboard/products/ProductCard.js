@@ -176,7 +176,7 @@ export default function ShopProductCard({ product }) {
             {' '}
             Delete
           </Button>
-          <Button
+          {/* <Button
             variant="contained"
             size="small"
             sx={{
@@ -192,7 +192,7 @@ export default function ShopProductCard({ product }) {
           >
             {' '}
             Edit
-          </Button>
+          </Button> */}
           {Status === 'true' && (
             <Label
               variant="filled"
