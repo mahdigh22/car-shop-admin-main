@@ -13,7 +13,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm({ setToken }) {
+  
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -29,26 +30,31 @@ export default function LoginForm() {
   const savePass = (event) => {
     setPass(event.target.value);
   };
-  useEffect(() => {
-    axios
-      .post('https://carshopserver.vercel.app/login', {
-        Email,
-        Pass,
-      })
-      .then(function (response) {
-        setRes(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  });
+
+  async function  getData(){
+   
+    await axios
+    .post('https://carshopserver.vercel.app/login', {
+      Email,
+      Pass,
+    })
+    .then(function (response) {
+      setRes(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  }
+  
   const CheckIfValid = () => {
     
-      console.log(res);
+   getData()
     if (res == 'Done') {
-      return navigate('/dashboard/app');
+      setToken(true);
+    } else {
+      setToken(false);
     }
-    return navigate('/login');
   };
 
   return (

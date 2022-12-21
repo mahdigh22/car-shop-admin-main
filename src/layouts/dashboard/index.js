@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
+import Login from '../../pages/Login';
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 
@@ -14,7 +15,7 @@ const APP_BAR_DESKTOP = 92;
 const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
-  overflow: 'hidden'
+  overflow: 'hidden',
 });
 
 const MainStyle = styled('div')(({ theme }) => ({
@@ -26,15 +27,31 @@ const MainStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     paddingTop: APP_BAR_DESKTOP + 24,
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
-  }
+    paddingRight: theme.spacing(2),
+  },
 }));
 
 // ----------------------------------------------------------------------
+function setToken(userToken) {
+  
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
 
+function getToken() {
+  
+  const tokenString = sessionStorage.getItem('token');
+ 
+  const userToken = JSON.parse(tokenString);
+   console.log(userToken)
+  return userToken;
+}
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-
+  const token = getToken();
+console.log(token)
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
