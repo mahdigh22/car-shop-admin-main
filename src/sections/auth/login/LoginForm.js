@@ -23,42 +23,47 @@ export default function LoginForm() {
   const [Email, setEmail] = useState();
   const [Pass, setPass] = useState();
   const [res, setRes] = useState();
-
+  async function setToken  (userToken)  {
+    console.log(userToken)
+    localStorage.setItem('token', JSON.stringify(userToken));
+  }
+  useEffect(() => {
+    setToken(false)
+  }, [])
   const saveEmail = (event) => {
     setEmail(event.target.value);
   };
   const savePass = (event) => {
     setPass(event.target.value);
   };
-  async function  getData(){
-   
-    await axios
-    .post('https://carshopserver.vercel.app/login', {
-      Email,
-      Pass,
-    })
-    .then(function (response) {
-      setRes(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  }
-  const setToken = (userToken) => {
-    console.log(userToken)
-    localStorage.setItem('token', JSON.stringify(userToken));
-  }
-
   
+  async function getData() {
+
+    await axios
+      .post('https://carshopserver.vercel.app/login', {
+        Email,
+        Pass,
+      })
+      .then(function (response) {
+        setRes(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+
+
+
   async function CheckIfValid() {
-   await getData();
+    await getData();
+
     if (res === 'Done') {
-      setToken(true);
-      navigate('/dashboard/products');
-    } 
+       setToken(true);
+      await navigate('/dashboard/products');
+    }
     else {
-      setToken(false);
+      await setToken(false);
       alert('Oh wrong Email or Password!')
     }
   };
