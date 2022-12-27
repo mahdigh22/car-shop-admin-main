@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // material
 import { Button, Container, Stack, Typography } from '@mui/material';
 // components
@@ -12,21 +12,23 @@ import PRODUCTS from '../_mock/products';
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
- 
+
   const [openFilter, setOpenFilter] = useState(false);
-  const[Products,setProducts]=useState([]);
+  const [Products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-   const axios = require('axios');
+  const axios = require('axios');
+  async function getcars() {
+    await axios.get('https://carshopserver.vercel.app/products').then(resp => {
 
+      setProducts(resp.data);
+      //  console.log(Products[5].Image.data)
+    });
+  }
   useEffect(() => {
-    axios.get('https://carshopserver.vercel.app/products').then(resp => {
-
-     setProducts(resp.data);
-    //  console.log(Products[5].Image.data)
-  });
-  },[]);
-  console.log('pro',Products[0]?.Image.split(','))
+    getcars()
+  }, []);
+  console.log('pro', Products[0]?.Image.split(','))
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };

@@ -93,9 +93,9 @@ export default function ShopProductCard({ product }) {
   const handleClose = () => setOpen(false);
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
-  const DeleteCar = (id) => {
+  async function DeleteCar  (id)  {
    
-    axios
+   await axios
       .post('https://carshopserver.vercel.app/delete', {
         id
       })
@@ -107,7 +107,7 @@ export default function ShopProductCard({ product }) {
       });
 
    
-    navigate('/dashboard/products');
+      window.location.reload()
   };
   return (
     <>
