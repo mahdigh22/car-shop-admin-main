@@ -32,26 +32,10 @@ const MainStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-function setToken(userToken) {
-  
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
 
-function getToken() {
-  
-  const tokenString = sessionStorage.getItem('token');
- 
-  const userToken = JSON.parse(tokenString);
-   console.log(userToken)
-  return userToken;
-}
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const token = getToken();
-console.log(token)
-  if (!token) {
-    return <Login setToken={setToken} />;
-  }
+ 
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />

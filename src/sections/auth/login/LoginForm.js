@@ -13,8 +13,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
-export default function LoginForm({ setToken }) {
-  
+export default function LoginForm() {
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +30,6 @@ export default function LoginForm({ setToken }) {
   const savePass = (event) => {
     setPass(event.target.value);
   };
-
   async function  getData(){
    
     await axios
@@ -46,14 +45,21 @@ export default function LoginForm({ setToken }) {
     });
 
   }
+  const setToken = (userToken) => {
+    console.log(userToken)
+    localStorage.setItem('token', JSON.stringify(userToken));
+  }
+
   
-  const CheckIfValid = () => {
-    
-   getData()
-    if (res == 'Done') {
+  async function CheckIfValid() {
+   await getData();
+    if (res === 'Done') {
       setToken(true);
-    } else {
+      navigate('/dashboard/products');
+    } 
+    else {
       setToken(false);
+      alert('Oh wrong Email or Password!')
     }
   };
 

@@ -56,7 +56,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login({ setToken }) {
+export default function Login() {
   
   const smUp = useResponsive('up', 'sm');
 
@@ -90,7 +90,7 @@ export default function Login({ setToken }) {
 
            
 
-            <LoginForm setToken={setToken}/>
+            <LoginForm />
 
            
           </ContentStyle>
