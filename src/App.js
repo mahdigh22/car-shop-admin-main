@@ -12,7 +12,7 @@ import Login from './pages/Login';
 // ----------------------------------------------------------------------
 
 
-function getToken() {
+async function getToken() {
 
   const tokenString = localStorage.getItem('token');
 

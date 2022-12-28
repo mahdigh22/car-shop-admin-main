@@ -28,7 +28,7 @@ export default function EcommerceShop() {
   useEffect(() => {
     getcars()
   }, []);
-  console.log('pro', Products[0]?.Image.split(','))
+  // console.log('pro', Products[0]?.Image.split(','))
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };

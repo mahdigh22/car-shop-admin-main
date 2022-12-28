@@ -57,7 +57,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  
+
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
@@ -68,7 +68,7 @@ export default function Login() {
         <HeaderStyle>
           <Logo />
 
-          
+
         </HeaderStyle>
 
         {mdUp && (
@@ -88,11 +88,11 @@ export default function Login() {
 
             <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
 
-           
+
 
             <LoginForm />
 
-           
+
           </ContentStyle>
         </Container>
       </RootStyle>

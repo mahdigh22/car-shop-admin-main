@@ -93,6 +93,7 @@ export default function ShopProductCard({ product }) {
   const handleClose = () => setOpen(false);
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
+
   async function DeleteCar  (id)  {
    
    await axios
@@ -101,13 +102,14 @@ export default function ShopProductCard({ product }) {
       })
       .then(function (response) {
         console.log(response);
+        window.location.reload()
       })
       .catch(function (error) {
         console.log(error);
       });
 
    
-      window.location.reload()
+     
   };
   return (
     <>
