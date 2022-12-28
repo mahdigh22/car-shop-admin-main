@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -6,6 +7,7 @@ import { Grid, Container, Typography } from '@mui/material';
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
 // sections
+
 import {
   AppTasks,
   AppNewsUpdate,
@@ -22,7 +24,26 @@ import {
 
 export default function DashboardApp() {
   const theme = useTheme();
+  const axios = require('axios');
+  const [deals, setDeals] = React.useState([]);
+  const [Products, setProducts] = useState([]);
+  const found = deals.filter((obj) => {
+    return obj.ip;
+  });
 
+  React.useEffect(() => {
+    axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
+      setDeals(resp.data);
+      //  console.log(Products[5].Image.data)
+    });
+  }, []);
+  React.useEffect(() => {
+     axios.get('https://carshopserver.vercel.app/products').then(resp => {
+
+    setProducts(resp.data);
+    //  console.log(Products[5].Image.data)
+  });
+  }, []);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -32,15 +53,15 @@ export default function DashboardApp() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Weekly Deals" total={deals.length} icon={'mdi:deal-outline'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="New Users" total={found.length} color="info" icon={'ph:users-three-duotone'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Cars Number" total={Products.length} color="warning" icon={'ic:round-directions-car'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
@@ -137,8 +158,6 @@ export default function DashboardApp() {
             />
           </Grid>
 
-          
-
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
@@ -156,10 +175,6 @@ export default function DashboardApp() {
               }))}
             />
           </Grid>
-
-         
-
-         
         </Grid>
       </Container>
     </Page>
