@@ -33,23 +33,34 @@ export default function Deals() {
     });
   }, []);
 
-  async function DeleteDeal  (id)  {
-   
+  async function DeleteDeal(id) {
     await axios
-       .post('https://carshopserver.vercel.app/deleteDeal', {
-         id
-       })
-       .then(function (response) {
-         console.log(response);
-         window.location.reload()
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
- 
-    
-      
-   };
+      .post('https://carshopserver.vercel.app/deleteDeal', {
+        id,
+      })
+      .then(function (response) {
+        console.log(response);
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  async function updateDeal(status, id) {
+    await axios
+      .post('https://carshopserver.vercel.app/updateDeal', {
+        status,
+        id,
+      })
+      .then(function (response) {
+        console.log(response);
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  //  updateDeal
   // console.log(deals)
   return (
     <Page title="Dashboard: Deals">
@@ -82,10 +93,28 @@ export default function Deals() {
                     <TableCell align="right">{row.carId}</TableCell>
                     <TableCell align="right">{row.carModel}</TableCell>
                     <TableCell align="right">
-                      <Stack direction='row' spacing={1}>
-                        <Button variant='outlined'>Checked</Button>
-                        <Button variant='contained' onClick={()=>{DeleteDeal(row.id)}}>Delete</Button>
-                        
+                      <Stack direction="row" spacing={1}>
+                        <Button
+                          variant={row.status === 'true' ? 'contained' : 'outlined'}
+                          onClick={() => {
+                            updateDeal('true', row.id);
+                          }}
+                          disabled={row.status === 'true'}
+                        >
+                          {row.status === 'true' ? 'checked' : 'pending'}
+                        </Button>
+                        {row.status === 'true' ? (
+                          ''
+                        ) : (
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              DeleteDeal(row.id);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        )}
                       </Stack>
                     </TableCell>
                   </TableRow>
