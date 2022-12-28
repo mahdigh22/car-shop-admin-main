@@ -22,8 +22,9 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { fToNow } from '../../utils/formatTime';
 // components
 import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
+
 import MenuPopover from '../../components/MenuPopover';
+import Scrollbar from 'src/components/Scrollbar';
 
 // ----------------------------------------------------------------------
 
@@ -114,15 +115,17 @@ export default function NotificationsPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Scrollbar>
+      <Scrollbar>
           <List
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
                 New
               </ListSubheader>
-            }
+            } 
+            
           >
+            
             {message?.map((notification, index) => (
               <>
                 <NotificationItem key={index} notification={notification} />
@@ -147,8 +150,9 @@ export default function NotificationsPopover() {
 
 function NotificationItem(props) {
   const { notification } = props;
-  console.log('nott', notification);
+ 
   return (
+   
     <ListItemButton
       sx={{
         py: 1.5,
@@ -157,7 +161,9 @@ function NotificationItem(props) {
         // ...(notification.isUnRead && {
         //   bgcolor: 'action.selected',
         // }),
+        backgroundColor:notification?.isRead ?'transparent':'gray'
       }}
+      onClick={()=>{console.log('tess')}}
     >
       <ListItemAvatar>
         <Avatar>
