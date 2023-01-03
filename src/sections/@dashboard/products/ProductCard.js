@@ -25,6 +25,7 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import EditCar from '../../../components/editCar';
 import Label from '../../../components/Label';
+import Iconify from 'src/components/Iconify';
 
 // ----------------------------------------------------------------------
 const style = {
@@ -83,6 +84,7 @@ export default function ShopProductCard({ product }) {
     Seats,
     Drivetrain,
     id,
+    Currency,
   } = product;
   const axios = require('axios');
   const images = Image.split(',');
@@ -94,23 +96,19 @@ export default function ShopProductCard({ product }) {
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
 
-  async function DeleteCar  (id)  {
-   
-   await axios
+  async function DeleteCar(id) {
+    await axios
       .post('https://carshopserver.vercel.app/delete', {
-        id
+        id,
       })
       .then(function (response) {
         console.log(response);
-        window.location.reload()
+        window.location.reload();
       })
       .catch(function (error) {
         console.log(error);
       });
-
-   
-     
-  };
+  }
   return (
     <>
       {' '}
@@ -134,7 +132,9 @@ export default function ShopProductCard({ product }) {
                 aria-label="close"
                 color="inherit"
                 size="small"
-                onClick={()=>{DeleteCar(id)}}
+                onClick={() => {
+                  DeleteCar(id);
+                }}
               >
                 <CheckIcon fontSize="inherit" />
               </IconButton>
@@ -239,7 +239,12 @@ export default function ShopProductCard({ product }) {
                 color: 'green',
               }}
             >
-              {Price}
+              {Price}{' '}
+              {Currency === 'dollar' ? (
+                <Iconify icon={'bi:currency-dollar'} sx={{  color: 'green', ml: 1 }} />
+              ) : (
+                <Iconify icon={'ic:sharp-euro'} sx={{  color: 'green', ml: 1 }} />
+              )}
             </Typography>
           </Stack>
           <Stack direction="column">
