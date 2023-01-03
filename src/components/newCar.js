@@ -2,13 +2,27 @@
 /* eslint-disable  */
 
 import React, { useEffect, useState } from 'react';
-import { Card, Grid, Button, TextField, Box, Stack, Typography, Divider } from '@mui/material';
+import {
+  Card,
+  Grid,
+  Button,
+  TextField,
+  Box,
+  Stack,
+  Typography,
+  Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useNavigate } from 'react-router-dom';
 import storage from 'src/components/firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import Iconify from './Iconify';
 
 export default function NewCar() {
   const navigate = useNavigate();
@@ -18,6 +32,7 @@ export default function NewCar() {
   const [CarName, setCarName] = useState();
   const [Model, setModel] = useState();
   const [Price, setPrice] = useState();
+  const [Currency, setCurrency] = useState('');
   const [Location, setLocation] = useState();
   const [Transmission, setTransmission] = useState();
   const [ExteriorColor, setExteriorColor] = useState();
@@ -29,11 +44,15 @@ export default function NewCar() {
   const [file, setFile] = useState([]);
   const [progress, setProgress] = useState();
   const [urls, setURLs] = useState('');
+  const [currencyPopUp, setcurrencyPopUp] = useState();
   function handleChange(event) {
     // setFile(event.target.files);
     setFile([event.target.files]);
   }
-
+  const handleChangeCurrency = (event) => {
+    
+    setCurrency(event.target.value);
+  };
   //  console.log('files',file[0])
 
   const uploadFiles = (files) => {
@@ -83,6 +102,7 @@ export default function NewCar() {
     FuelType: '',
     Seats: '',
     Drivetrain: '',
+    Currency:''
   });
 
   useEffect(() => {
@@ -101,6 +121,7 @@ export default function NewCar() {
       FuelType: FuelType,
       Seats: Seats,
       Drivetrain: Drivetrain,
+      Currency:Currency,
     });
   });
   const changeHandler = (e) => {
@@ -124,6 +145,7 @@ export default function NewCar() {
       FuelType: FuelType,
       Seats: Seats,
       Drivetrain: Drivetrain,
+      Currency:Currency,
     });
 
     axios
@@ -217,12 +239,35 @@ export default function NewCar() {
                     id="outlined-basic"
                     label="Price"
                     variant="outlined"
-                    fullWidth
+                    fullWidth={!currencyPopUp}
                     type="number"
                     onChange={(e) => {
                       setPrice(e.target.value);
+                      setcurrencyPopUp(true);
                     }}
                   />
+                  {currencyPopUp && (
+                    <FormControl sx={{ width: '220px' }}>
+                      <InputLabel id="demo-simple-select-label">Currency</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={Currency}
+                        label="Currency"
+                        onChange={handleChangeCurrency}
+                      >
+                        <MenuItem value={'dollar'}>
+                          <Iconify icon={'bi:currency-dollar'} sx={{ color: '#0d47a1', mr: 2 }} />
+                          Dollar
+                        </MenuItem>
+                        <MenuItem value={'euro'}>
+                          <Iconify icon={'ic:sharp-euro'} sx={{ color: '#0d47a1', mr: 2 }} />
+                          Eur
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+
                   <TextField
                     id="outlined-basic"
                     label="Exterior Color"

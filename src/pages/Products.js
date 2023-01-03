@@ -25,9 +25,11 @@ export default function EcommerceShop() {
       //  console.log(Products[5].Image.data)
     });
   }
+
   useEffect(() => {
     getcars()
   }, []);
+  
   // console.log('pro', Products[0]?.Image.split(','))
   const handleOpenFilter = () => {
     setOpenFilter(true);
