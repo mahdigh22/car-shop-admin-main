@@ -27,13 +27,28 @@ export default function DashboardApp() {
   const axios = require('axios');
   const [deals, setDeals] = React.useState([]);
   const [Products, setProducts] = useState([]);
-  const found = deals.filter((obj) => {
-    return obj.ip;
-  });
+  const [Ids, setIds] = useState([]);
 
+  const userNames = deals.map(( name ) => name.carId)
+  const userNames2 = Products.map(( name ) => name.id)
+
+  function getDifference(arr1,arr2){
+    return  arr1
+          // filtering difference in first array with second array
+        .filter(x => !arr2.includes(x))
+           // filtering difference in second array with first array
+        .concat(arr2.filter(x => !arr1.includes(x)));
+}
+  
+  const found = deals.filter((obj) => {
+    return obj.carId;
+  });
+ 
+  
   React.useEffect(() => {
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
       setDeals(resp.data);
+      
       //  console.log(Products[5].Image.data)
     });
   }, []);
@@ -65,7 +80,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="Cars without deals" total={getDifference(userNames,userNames2).length} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
