@@ -1,7 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable  */
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
   Box,
@@ -15,6 +15,10 @@ import {
   IconButton,
   Alert,
   Collapse,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
@@ -22,7 +26,7 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditCar from '../../../components/editCar';
 import Label from '../../../components/Label';
 import Iconify from 'src/components/Iconify';
@@ -86,31 +90,76 @@ export default function ShopProductCard({ product }) {
     id,
     Currency,
   } = product;
+  const navigate = useNavigate();
   const axios = require('axios');
   const images = Image.split(',');
   const priceSale = Price - 10;
   const [open, setOpen] = useState(false);
+  const [Error, setError] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
 
+  const [deals, setDeals] = useState([]);
+  useEffect(() => {
+    axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
+      setDeals(resp.data);
+      //  console.log(Products[5].Image.data)
+    });
+  }, []);
+
+  console.log('deals', Error);
+
   async function DeleteCar(id) {
-    await axios
-      .post('https://carshopserver.vercel.app/delete', {
-        id,
-      })
-      .then(function (response) {
-        console.log(response);
-        window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const filtered = deals.filter((obj) => {
+      return obj.carId === id;
+    });
+
+    {
+      filtered.length > 0
+        ? setError(true)
+        : await axios
+            .post('https://carshopserver.vercel.app/delete', {
+              id,
+            })
+            .then(function (response) {
+              console.log(response);
+              window.location.reload();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+    }
   }
+  const handleCloseDialog = () => {
+    setError(false);
+  };
+  const handleDeleteDeal = () => {
+    navigate('/dashboard/deals');
+  };
   return (
     <>
+    <Dialog
+        open={Error}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle >
+          This car already have a deal you Can't Delete it !!
+        </DialogTitle>
+        <DialogContent>
+          If you want to delete the car you want to delete before the deals belong for it.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleDeleteDeal} autoFocus>
+            Delete Deal
+          </Button>
+        </DialogActions>
+      </Dialog>
       {' '}
       <Modal
         open={open}
@@ -241,9 +290,9 @@ export default function ShopProductCard({ product }) {
             >
               {Price}{' '}
               {Currency === 'dollar' ? (
-                <Iconify icon={'bi:currency-dollar'} sx={{  color: 'green', ml: 1 }} />
+                <Iconify icon={'bi:currency-dollar'} sx={{ color: 'green', ml: 1 }} />
               ) : (
-                <Iconify icon={'ic:sharp-euro'} sx={{  color: 'green', ml: 1 }} />
+                <Iconify icon={'ic:sharp-euro'} sx={{ color: 'green', ml: 1 }} />
               )}
             </Typography>
           </Stack>
