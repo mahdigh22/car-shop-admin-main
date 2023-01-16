@@ -141,26 +141,21 @@ export default function ShopProductCard({ product }) {
   };
   return (
     <>
-    <Dialog
+      <Dialog
         open={Error}
         onClose={handleCloseDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle >
-          This car already have a deal you Can't Delete it !!
-        </DialogTitle>
-        <DialogContent>
-          If you want to delete the car you want to delete before the deals belong for it.
-        </DialogContent>
+        <DialogTitle>This car already have a deal you Can't Delete it !!</DialogTitle>
+        <DialogContent>If you want to delete the car you want to delete before the deals belong for it.</DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button onClick={handleDeleteDeal} autoFocus>
             Delete Deal
           </Button>
         </DialogActions>
-      </Dialog>
-      {' '}
+      </Dialog>{' '}
       <Modal
         open={open}
         onClose={handleClose}
@@ -271,16 +266,7 @@ export default function ShopProductCard({ product }) {
 
           {/* <ColorPreview colors={colors} /> */}
           <Stack direction="row" justifyContent="space-between">
-            <Typography
-              component="span"
-              variant="body1"
-              sx={{
-                color: 'text.disabled',
-                textDecoration: 'line-through',
-              }}
-            >
-              {priceSale}
-            </Typography>{' '}
+           
             <Typography
               component="span"
               variant="subtitle1"
