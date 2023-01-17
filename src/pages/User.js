@@ -37,7 +37,7 @@ const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'zip', label: 'Zip', alignRight: false },
 
-  { id: 'ip', label: 'Ip', alignRight: false },
+  { id: 'ip', label: 'ip', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
