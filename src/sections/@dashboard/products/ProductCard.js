@@ -103,6 +103,7 @@ export default function ShopProductCard({ product }) {
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
 
   const [deals, setDeals] = useState([]);
+  
   useEffect(() => {
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
       setDeals(resp.data);
