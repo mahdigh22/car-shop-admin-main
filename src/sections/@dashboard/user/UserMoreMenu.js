@@ -74,17 +74,17 @@ export default function UserMoreMenu(props) {
             }}/>
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}  onClick={() => {
+              setPopEdit(true);
+              // handleEdit('true', id);
+            }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText
             primary="Edit"
             primaryTypographyProps={{ variant: 'body2' }}
-            onClick={() => {
-              setPopEdit(true);
-              // handleEdit('true', id);
-            }}
+           
           />
         </MenuItem>
       </Menu>
