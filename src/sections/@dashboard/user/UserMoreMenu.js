@@ -26,7 +26,7 @@ export default function UserMoreMenu(props) {
       <Dialog onClose={handleClose} open={popEdit}>
         <DialogTitle>Set Client Status</DialogTitle>
         <DialogContent>
-        <Box sx={{p:1,width:400}}>
+        <Box sx={{p:1,width:{xs:200,md:400}}}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Status</InputLabel>
           <Select

@@ -26,6 +26,7 @@ export default function DashboardApp() {
   const theme = useTheme();
   const axios = require('axios');
   const [deals, setDeals] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
   const [Products, setProducts] = useState([]);
   const [Ids, setIds] = useState([]);
 
@@ -53,9 +54,16 @@ export default function DashboardApp() {
     });
   }, []);
   React.useEffect(() => {
-     axios.get('https://carshopserver.vercel.app/products').then(resp => {
+    axios.get('https://carshopserver.vercel.app/products').then((resp) => {
+      setProducts(resp.data);
+      
+      //  console.log(Products[5].Image.data)
+    });
+  }, []);
+  React.useEffect(() => {
+     axios.get('https://carshopserver.vercel.app/users').then(resp => {
 
-    setProducts(resp.data);
+    setUsers(resp.data);
     //  console.log(Products[5].Image.data)
   });
   }, []);
@@ -72,7 +80,7 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={found.length} color="info" icon={'ph:users-three-duotone'} />
+            <AppWidgetSummary title="New Users" total={users.length} color="info" icon={'ph:users-three-duotone'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

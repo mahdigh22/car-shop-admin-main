@@ -98,9 +98,7 @@ export default function Deals() {
                         >
                           {row.status === 'true' ? 'checked' : 'pending'}
                         </Button>
-                        {row.status === 'true' ? (
-                          ''
-                        ) : (
+                    
                           <Button
                             variant="contained"
                             onClick={() => {
@@ -109,7 +107,7 @@ export default function Deals() {
                           >
                             Delete
                           </Button>
-                        )}
+                        
                       </Stack>
                     </TableCell>
                   </TableRow>
