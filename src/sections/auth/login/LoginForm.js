@@ -14,59 +14,51 @@ import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const axios = require('axios');
-  const [Data, setData] = useState([]);
   const [Email, setEmail] = useState();
   const [Pass, setPass] = useState();
   const [res, setRes] = useState();
-  async function setToken  (userToken)  {
-    console.log(userToken)
-    localStorage.setItem('token', JSON.stringify(userToken));
-  }
-  useEffect(() => {
-    setToken(false)
-  }, [])
+
   const saveEmail = (event) => {
     setEmail(event.target.value);
   };
   const savePass = (event) => {
     setPass(event.target.value);
   };
-  
   async function getData() {
-
     await axios
-      .post('https://carshopserver.vercel.app/login', {
+      .post('https://carshopserver.vercel.app/api/auth', {
         Email,
         Pass,
       })
-      .then(function (response) {
-        setRes(response.data);
+      .then(async function (response) {
+        console.log(response.data);
+        await axios
+          .get('https://carshopserver.vercel.app/user/validateToken', {
+            params: { token: response?.data },
+            headers: {
+              Authorization: `Bearer ${response?.data}`,
+              'X-Custom-Header': 'foobar',
+            },
+          })
+          .then(function (response) {
+            if(response){ navigate('/dashboard/products')}
+           else{navigate('/login');}
+          });
+          
       })
       .catch(function (error) {
-        console.log(error);
+        navigate('/login');
+        console.log('Oh wrong Email or Password!');
       });
-
   }
-
-
 
   async function CheckIfValid() {
     await getData();
-
-    if (res === 'Done') {
-       setToken(true);
-      await navigate('/dashboard/products');
-    }
-    else {
-      await setToken(false);
-      alert('Oh wrong Email or Password!')
-    }
-  };
+  }
 
   return (
     <>
