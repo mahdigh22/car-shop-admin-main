@@ -120,9 +120,9 @@ export default function User() {
         console.log(error);
       });
   }
-  useEffect(() => {
-    getuser();
-  }, []);
+  
+    setInterval( getuser, 2000);
+ 
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
