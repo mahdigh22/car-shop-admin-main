@@ -30,18 +30,18 @@ export default function DashboardApp() {
   const [Products, setProducts] = useState([]);
   const [Ids, setIds] = useState([]);
 
-  const userNames = deals.map(( name ) => name.carId)
-  const userNames2 = Products.map(( name ) => name.id)
+  const userNames = deals?.map(( name ) => name.carId)
+  const userNames2 = Products?.map(( name ) => name.id)
 
   function getDifference(arr1,arr2){
     return  arr1
           // filtering difference in first array with second array
-        .filter(x => !arr2.includes(x))
+        ?.filter(x => !arr2.includes(x))
            // filtering difference in second array with first array
         .concat(arr2.filter(x => !arr1.includes(x)));
 }
   
-  const found = deals.filter((obj) => {
+  const found = deals?.filter((obj) => {
     return obj.carId;
   });
  

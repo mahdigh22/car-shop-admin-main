@@ -39,19 +39,19 @@ export default function NotificationsPopover() {
   }, []);
 
   const [notifications, setNotifications] = useState(message);
-  const found = message.filter((obj) => {
-    return obj.isRead === 'true';
+  const found = message?.filter((obj) => {
+    return obj?.isRead === 'true';
   });
-  const found2 = message.filter((obj) => {
-    return obj.isRead === '';
+  const found2 = message?.filter((obj) => {
+    return obj?.isRead === '';
   });
   console.log('found', found);
-  const totalUnRead = found2.length;
+  const totalUnRead = found2?.length;
   // console.log(notifications);
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    setOpen(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -171,7 +171,7 @@ function NotificationItem(props) {
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={notification.fullname}
+        primary={notification?.fullname}
         secondary={
           <Typography
             variant="caption"
@@ -184,7 +184,7 @@ function NotificationItem(props) {
           >
             <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
             {/* {fToNow(notification.createdAt)} */}
-            {notification.fullname}
+            {notification?.fullname}
           </Typography>
         }
       />

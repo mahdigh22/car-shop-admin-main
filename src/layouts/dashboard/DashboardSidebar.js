@@ -50,8 +50,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
   useEffect(() => {
     axios.get('https://carshopserver.vercel.app/').then((resp) => {
-      setData(resp.data);
-      console.log(Data[0].email)
+      setData(resp?.data);
+      console.log(Data[0]?.email)
     });
   }, []);
 
