@@ -45,10 +45,14 @@ export default function LoginForm() {
             },
           })
           .then(function (response) {
-            if(response){ navigate('/dashboard/products')}
-           else{navigate('/login');}
+            if (response) {
+              localStorage.setItem('token', JSON.stringify(response));
+              navigate('/dashboard/products');
+              window.location.reload()
+            } else {
+              navigate('/login');
+            }
           });
-          
       })
       .catch(function (error) {
         navigate('/login');

@@ -1,5 +1,8 @@
+/* eslint-disable  */
+
 // routes
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import Router from './routes';
 // theme
 import ThemeProvider from './theme';
@@ -11,20 +14,39 @@ import Login from './pages/Login';
 
 // ----------------------------------------------------------------------
 
-
-async function getToken() {
-
-  const tokenString = localStorage.getItem('token');
-
-  const userToken = JSON.parse(tokenString);
-  console.log(userToken)
-  return userToken;
-}
 export default function App() {
   const [open, setOpen] = useState(false);
-  const token = getToken();
-  console.log(token)
-  if (!token) {
+
+  const axios = require('axios');
+const token = JSON.parse(localStorage.getItem('token'));
+   async function getToken() {
+    
+    console.log('token',token.config.params.token)
+    await axios
+      .get('https://carshopserver.vercel.app/user/validateToken', {
+        params: { token: token.config.params.token },
+        headers: {
+          Authorization: `Bearer ${token.config.params.token}`,
+          'X-Custom-Header': 'foobar',
+        },
+      })
+      .then(function (response) {
+        setOpen(true)
+
+       
+      })
+      .catch(function (error) {
+       
+        setOpen(false)
+        
+      })
+      
+  }
+  
+   setInterval( getToken, 1000);
+   
+
+    if (!open) {
     return <Login  />;
   }
   return (
