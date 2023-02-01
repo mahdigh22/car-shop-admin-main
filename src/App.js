@@ -15,13 +15,11 @@ import Login from './pages/Login';
 // ----------------------------------------------------------------------
 
 export default function App() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState();
 
   const axios = require('axios');
-const token = JSON.parse(localStorage.getItem('token'));
-   async function getToken() {
-    
-    
+  const token = JSON.parse(localStorage.getItem('token'));
+  async function getToken() {
     await axios
       .get('https://carshopserver.vercel.app/user/validateToken', {
         params: { token: token.config.params.token },
@@ -30,25 +28,19 @@ const token = JSON.parse(localStorage.getItem('token'));
           'X-Custom-Header': 'foobar',
         },
       })
-      .then( async function (response) {
-        console.log('token',response)
-         await setOpen(true)
-
-       
+      .then(async function (response) {
+        console.log('token', response);
+        await setOpen(true);
       })
-      .catch( async function (error) {
-       
-        await setOpen(false)
-        
-      })
-      
+      .catch(async function (error) {
+        await setOpen(false);
+      });
   }
-  
-   setInterval( getToken, 2000);
-   
 
-    if (open===false) {
-    return <Login  />;
+  setInterval(getToken, 2000);
+
+  if (open === false) {
+    return <Login />;
   }
   return (
     <ThemeProvider>
