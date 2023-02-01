@@ -21,7 +21,7 @@ export default function App() {
 const token = JSON.parse(localStorage.getItem('token'));
    async function getToken() {
     
-    console.log('token',token.config.params.token)
+    
     await axios
       .get('https://carshopserver.vercel.app/user/validateToken', {
         params: { token: token.config.params.token },
@@ -30,23 +30,24 @@ const token = JSON.parse(localStorage.getItem('token'));
           'X-Custom-Header': 'foobar',
         },
       })
-      .then(function (response) {
-        setOpen(true)
+      .then( async function (response) {
+        console.log('token',response)
+         await setOpen(true)
 
        
       })
-      .catch(function (error) {
+      .catch( async function (error) {
        
-        setOpen(false)
+        await setOpen(false)
         
       })
       
   }
   
-   setInterval( getToken, 1000);
+   setInterval( getToken, 2000);
    
 
-    if (!open) {
+    if (open===false) {
     return <Login  />;
   }
   return (

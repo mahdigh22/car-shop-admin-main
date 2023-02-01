@@ -35,7 +35,7 @@ export default function LoginForm() {
         Pass,
       })
       .then(async function (response) {
-        console.log(response.data);
+        console.log(response);
         await axios
           .get('https://carshopserver.vercel.app/user/validateToken', {
             params: { token: response?.data },
@@ -56,7 +56,7 @@ export default function LoginForm() {
       })
       .catch(function (error) {
         navigate('/login');
-        console.log('Oh wrong Email or Password!');
+        alert('Oh wrong Email or Password!');
       });
   }
 
