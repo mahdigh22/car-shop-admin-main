@@ -38,7 +38,8 @@ export default function App() {
   }
 
  
-  setInterval(getToken, 3000);
+  setInterval(getToken, 2000);
+  
 
   if (open === false ) {
     return <Login />;
