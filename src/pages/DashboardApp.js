@@ -30,8 +30,8 @@ export default function DashboardApp() {
   const [Products, setProducts] = useState([]);
   const [Ids, setIds] = useState([]);
 
-  const userNames = deals?.map(( name ) => name.carId)
-  const userNames2 = Products?.map(( name ) => name.id)
+  const userNames = deals.map(( name ) => name.carId)
+  const userNames2 = Products.map(( name ) => name?.id)
 
   function getDifference(arr1,arr2){
     return  arr1

@@ -48,7 +48,7 @@ export default function LoginForm() {
             if (response) {
               localStorage.setItem('token', JSON.stringify(response));
               navigate('/dashboard/products');
-              window.location.reload()
+              window.location.reload();
             } else {
               navigate('/login');
             }
@@ -59,7 +59,11 @@ export default function LoginForm() {
         alert('Oh wrong Email or Password!');
       });
   }
+  useEffect(() => {
+    localStorage.setItem('token', null);
+  }, []);
 
+ 
   async function CheckIfValid() {
     await getData();
   }

@@ -22,9 +22,9 @@ export default function App() {
   async function getToken() {
     await axios
       .get('https://carshopserver.vercel.app/user/validateToken', {
-        params: { token: token.config.params.token },
+        params: { token: token?.config?.params.token },
         headers: {
-          Authorization: `Bearer ${token.config.params.token}`,
+          Authorization: `Bearer ${token?.config?.params.token}`,
           'X-Custom-Header': 'foobar',
         },
       })
@@ -37,9 +37,10 @@ export default function App() {
       });
   }
 
-  setInterval(getToken, 2000);
+ 
+  setInterval(getToken, 3000);
 
-  if (open === false) {
+  if (open === false ||token===null) {
     return <Login />;
   }
   return (
