@@ -40,7 +40,7 @@ export default function App() {
  
   setInterval(getToken, 3000);
 
-  if (open === false ||token===null) {
+  if (open === false ) {
     return <Login />;
   }
   return (
