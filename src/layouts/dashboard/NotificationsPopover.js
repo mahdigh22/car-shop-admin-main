@@ -30,7 +30,7 @@ import Scrollbar from 'src/components/Scrollbar';
 
 export default function NotificationsPopover() {
   const anchorRef = useRef(null);
-  const [message, setmessage] = useState([]);
+  const [message, setmessage] = useState([]||['']);
   const axios = require('axios');
   useEffect(() => {
     axios.get('https://carshopserver.vercel.app/message').then((resp) => {

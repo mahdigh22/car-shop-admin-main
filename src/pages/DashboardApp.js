@@ -25,13 +25,13 @@ import {
 export default function DashboardApp() {
   const theme = useTheme();
   const axios = require('axios');
-  const [deals, setDeals] = React.useState([]);
-  const [users, setUsers] = React.useState([]);
+  const [deals, setDeals] = React.useState([]||['']);
+  const [users, setUsers] = React.useState([]||['']);
   const [Products, setProducts] = useState([]||['']);
   const [Ids, setIds] = useState([]);
 
-  const userNames = deals.map(( name ) => name?.carId)
-  const userNames2 = Products.map(( name ) => name?.id)
+  const userNames = deals?.map(( name ) => name?.carId)
+  const userNames2 = Products?.map(( name ) => name?.id)
 
   function getDifference(arr1,arr2){
     return  arr1
