@@ -59,9 +59,7 @@ export default function LoginForm() {
         alert('Oh wrong Email or Password!');
       });
   }
-  useEffect(() => {
-    localStorage.setItem('token', null);
-  }, []);
+
 
  
   async function CheckIfValid() {
