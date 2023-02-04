@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Box } from '@mui/material';
 // components
 import Page from '../components/Page';
+import Loading from '../components/loading';
 import Iconify from '../components/Iconify';
 // sections
 
@@ -29,9 +30,10 @@ export default function DashboardApp() {
   const [users, setUsers] = React.useState([]||['']);
   const [Products, setProducts] = useState([]||['']);
   const [Ids, setIds] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const userNames = deals?.map(( name ) => name?.carId)
-  const userNames2 = Products?.map(( name ) => name?.id)
+  const userNames = deals.map(( name ) => {return name?.carId})
+  const userNames2 = Products.map(( name ) => {return name?.id})
 
   function getDifference(arr1,arr2){
     return  arr1
@@ -47,17 +49,22 @@ export default function DashboardApp() {
  
   
   React.useEffect(() => {
+
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
       setDeals(resp.data);
       
       //  console.log(Products[5].Image.data)
+    }).catch((err) => {
+      console.log(err);
     });
   }, []);
   React.useEffect(() => {
     axios.get('https://carshopserver.vercel.app/products').then((resp) => {
       setProducts(resp.data);
-      
+      setLoading(false);
       //  console.log(Products[5].Image.data)
+    }).catch((err) => {
+      console.log(err);
     });
   }, []);
   React.useEffect(() => {
@@ -65,8 +72,21 @@ export default function DashboardApp() {
 
     setUsers(resp.data);
     //  console.log(Products[5].Image.data)
+  }).catch((err) => {
+    console.log(err);
   });
   }, []);
+  if (loading) {
+    return (
+      <Page title="User">
+        <Container>
+          <Box sx={{height:'70vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <Loading />
+          </Box>
+        </Container>
+      </Page>
+    );
+  }
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -76,15 +96,15 @@ export default function DashboardApp() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Deals" total={deals.length} icon={'mdi:deal-outline'} />
+            <AppWidgetSummary title="Weekly Deals" total={deals?.length} icon={'mdi:deal-outline'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={users.length} color="info" icon={'ph:users-three-duotone'} />
+            <AppWidgetSummary title="New Users" total={users?.length} color="info" icon={'ph:users-three-duotone'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Cars Number" total={Products.length} color="warning" icon={'ic:round-directions-car'} />
+            <AppWidgetSummary title="Cars Number" total={Products?.length} color="warning" icon={'ic:round-directions-car'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

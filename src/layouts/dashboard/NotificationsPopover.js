@@ -30,17 +30,24 @@ import Scrollbar from 'src/components/Scrollbar';
 
 export default function NotificationsPopover() {
   const anchorRef = useRef(null);
-  const [message, setmessage] = useState([]||['']);
+  const [message, setmessage] = useState([{}]);
   const axios = require('axios');
   useEffect(() => {
-    axios.get('https://carshopserver.vercel.app/message').then((resp) => {
-      setmessage(resp.data);
-    });
+    axios
+      .get('https://carshopserver.vercel.app/message')
+      .then((resp) => {
+        setmessage(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const [notifications, setNotifications] = useState(message);
-  const found = message.filter((obj) => {
-    return obj?.isRead === 'true';
+  const found = message?.filter((obj) => {
+    if (obj!==null){return obj?.isRead === 'true';}
+    
+    
   });
   const found2 = message?.filter((obj) => {
     return obj?.isRead === '';
@@ -95,7 +102,7 @@ export default function NotificationsPopover() {
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="subtitle1">Notifications</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead||''} unread messages
+              You have {totalUnRead || ''} unread messages
             </Typography>
           </Box>
 
@@ -115,17 +122,15 @@ export default function NotificationsPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <Scrollbar>
+        <Scrollbar>
           <List
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
                 New
               </ListSubheader>
-            } 
-            
+            }
           >
-            
             {message?.map((notification, index) => (
               <>
                 <NotificationItem key={index} notification={notification} />
@@ -150,9 +155,8 @@ export default function NotificationsPopover() {
 
 function NotificationItem(props) {
   const { notification } = props;
- 
+
   return (
-   
     <ListItemButton
       sx={{
         py: 1.5,
@@ -161,9 +165,8 @@ function NotificationItem(props) {
         // ...(notification.isUnRead && {
         //   bgcolor: 'action.selected',
         // }),
-        backgroundColor:notification?.isRead ?'transparent':'gray'
+        backgroundColor: notification?.isRead ? 'transparent' : 'gray',
       }}
-     
     >
       <ListItemAvatar>
         <Avatar>
@@ -171,7 +174,7 @@ function NotificationItem(props) {
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={notification?.fullname||''}
+        primary={notification?.fullname || ''}
         secondary={
           <Typography
             variant="caption"
@@ -184,7 +187,7 @@ function NotificationItem(props) {
           >
             <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
             {/* {fToNow(notification.createdAt)} */}
-            {notification?.fullname||''}
+            {notification?.fullname || ''}
           </Typography>
         }
       />

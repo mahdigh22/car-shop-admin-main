@@ -8,22 +8,35 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Button, Container, Stack } from '@mui/material';
+import { Box, Button, Card, Container, Stack, TablePagination } from '@mui/material';
 import Page from '../components/Page';
+import Loading from 'src/components/loading';
+import { useState } from 'react';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-
-
 export default function Deals() {
   const axios = require('axios');
   const [deals, setDeals] = React.useState([]);
-  
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   React.useEffect(() => {
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
       setDeals(resp.data);
+      setLoading(false);
       //  console.log(Products[5].Image.data)
     });
   }, []);
@@ -57,11 +70,22 @@ export default function Deals() {
   }
   //  updateDeal
   // console.log(deals)
+  if (loading) {
+    return (
+      <Page title="User">
+        <Container>
+          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Loading />
+          </Box>
+        </Container>
+      </Page>
+    );
+  }
   return (
     <Page title="Dashboard: Deals">
       <Container>
-        <>
-          <TableContainer component={Paper} sx={{ border: '1px solid gray' }}>
+        <Card>
+          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -98,16 +122,15 @@ export default function Deals() {
                         >
                           {row.status === 'true' ? 'checked' : 'pending'}
                         </Button>
-                    
-                          <Button
-                            variant="contained"
-                            onClick={() => {
-                              DeleteDeal(row.id);
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        
+
+                        <Button
+                          variant="contained"
+                          onClick={() => {
+                            DeleteDeal(row.id);
+                          }}
+                        >
+                          Delete
+                        </Button>
                       </Stack>
                     </TableCell>
                   </TableRow>
@@ -115,7 +138,16 @@ export default function Deals() {
               </TableBody>
             </Table>
           </TableContainer>
-        </>
+          {/* <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={deals.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          /> */}
+        </Card>
       </Container>
     </Page>
   );

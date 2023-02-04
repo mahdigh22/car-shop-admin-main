@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 // material
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
 // components
 
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Page from '../components/Page';
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
 import PRODUCTS from '../_mock/products';
+import Loading from '../components/loading';
 
 // ----------------------------------------------------------------------
 
@@ -16,11 +17,13 @@ export default function EcommerceShop() {
   const [Products, setProducts] = useState([]);
   const navigate = useNavigate();
   const [sort, setSort] = useState('Newest');
+  const [loading, setLoading] = useState(true);
 
   const axios = require('axios');
   async function getcars() {
     await axios.get('https://carshopserver.vercel.app/products').then((resp) => {
       setProducts(resp.data);
+      setLoading(false);
       //  console.log(Products[5].Image.data)
     });
   }
@@ -64,6 +67,17 @@ export default function EcommerceShop() {
     getcars();
     setSort('Newest')
   };
+  if (loading) {
+    return (
+      <Page title="User">
+        <Container>
+          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Loading />
+          </Box>
+        </Container>
+      </Page>
+    );
+  }
   return (
     <Page title="Dashboard: Products">
       <Container>

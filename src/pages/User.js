@@ -19,6 +19,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Box,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -27,6 +28,7 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import Loading from 'src/components/loading';
 // mock
 
 // ----------------------------------------------------------------------
@@ -61,7 +63,7 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array?.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -87,12 +89,15 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [loading, setLoading] = useState(true);
+
   async function getuser() {
     await axios.get('https://carshopserver.vercel.app/users').then((resp) => {
       setUser1(resp.data);
+      setLoading(false);
     });
   }
-  async function handleEdit(status,id) {
+  async function handleEdit(status, id) {
     await axios
       .post('https://carshopserver.vercel.app/updateUsers', {
         status,
@@ -100,6 +105,7 @@ export default function User() {
       })
       .then(function (response) {
         console.log(response);
+
         window.location.reload();
       })
       .catch(function (error) {
@@ -109,7 +115,6 @@ export default function User() {
   async function handleDelete(id) {
     await axios
       .post('https://carshopserver.vercel.app/deleteUser', {
-       
         id,
       })
       .then(function (response) {
@@ -167,14 +172,22 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  
-
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
+  if (loading) {
+    return (
+      <Page title="User">
+        <Container>
+          <Box sx={{height:'70vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <Loading />
+          </Box>
+        </Container>
+      </Page>
+    );
+  }
   return (
     <Page title="User">
       <Container>
@@ -204,7 +217,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { clientName, clientZip, clientEmail, clientNumber, clientIp, status,clientId } = row;
+                    const { clientName, clientZip, clientEmail, clientNumber, clientIp, status, clientId } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -234,11 +247,10 @@ export default function User() {
                         <TableCell align="left">
                           <Label variant="ghost" color={(status === 'Banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
-                            
                           </Label>
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={handleEdit} id={clientId}handleDelete={handleDelete}/>
+                          <UserMoreMenu handleEdit={handleEdit} id={clientId} handleDelete={handleDelete} />
                         </TableCell>
                       </TableRow>
                     );

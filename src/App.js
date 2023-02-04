@@ -37,8 +37,10 @@ export default function App() {
       });
   }
 
- 
-  setInterval(getToken, 2000);
+  useEffect(() => {
+    getToken()
+  }, []);
+  // setInterval(getToken, 2000);
   
 
   if (open === false ) {
