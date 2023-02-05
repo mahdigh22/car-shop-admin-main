@@ -34,12 +34,13 @@ export default function App() {
       })
       .catch(async function (error) {
         await setOpen(false);
+        
       });
   }
 
   useEffect(() => {
     getToken()
-  }, []);
+  });
   // setInterval(getToken, 2000);
   
 
