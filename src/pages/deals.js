@@ -72,7 +72,7 @@ export default function Deals() {
   // console.log(deals)
   if (loading) {
     return (
-      <Page title="User">
+      <Page title="Deals">
         <Container>
           <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Loading />

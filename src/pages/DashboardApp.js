@@ -22,7 +22,7 @@ import {
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
-
+const URL="https://ip.nf/me.json";
 export default function DashboardApp() {
   const theme = useTheme();
   const axios = require('axios');
@@ -31,10 +31,11 @@ export default function DashboardApp() {
   const [Products, setProducts] = useState([]||['']);
   const [Ids, setIds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState([{ip:''}]);
 
   const userNames = deals.map(( name ) => {return name?.carId})
   const userNames2 = Products.map(( name ) => {return name?.id})
-
+  const userNames3 = users.map(( name ) => {return name?.clientIp})
   function getDifference(arr1,arr2){
     return  arr1
           // filtering difference in first array with second array
@@ -47,7 +48,17 @@ export default function DashboardApp() {
     return obj.carId;
   });
  
+ const getGeoInfo = () => {
+  fetch(URL,{method:"get"})
+  .then((response)=>response.json())
+  .then((data)=>{setInfo({...data});
+})
+};
   
+  React.useEffect(() => {
+getGeoInfo()
+   
+  }, []);
   React.useEffect(() => {
 
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
@@ -76,9 +87,10 @@ export default function DashboardApp() {
     console.log(err);
   });
   }, []);
+  console.log('users',info)
   if (loading) {
     return (
-      <Page title="User">
+      <Page title="Dashboard">
         <Container>
           <Box sx={{height:'70vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
           <Loading />
