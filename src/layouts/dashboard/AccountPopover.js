@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState ,useEffect} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -8,6 +8,7 @@ import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
 
+
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -16,16 +17,16 @@ const MENU_OPTIONS = [
     icon: 'eva:home-fill',
     linkTo: '/',
   },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#',
-  },
+  // {
+  //   label: 'Profile',
+  //   icon: 'eva:person-fill',
+  //   linkTo: '#',
+  // },
+  // {
+  //   label: 'Settings',
+  //   icon: 'eva:settings-2-fill',
+  //   linkTo: '#',
+  // },
   {
     label: 'Logout',
     icon: 'eva:settings-2-fill',
@@ -39,7 +40,15 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState(null);
+  const axios = require('axios');
+  const [Data, setData] = useState([]);
 
+  useEffect(() => {
+    axios.get('https://carshopserver.vercel.app/').then((resp) => {
+      setData(resp?.data);
+      console.log(Data[0]?.email)
+    });
+  }, []);
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -87,10 +96,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+          {Data[0]?.username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+          {Data[0]?.email}
           </Typography>
         </Box>
 
