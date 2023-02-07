@@ -32,8 +32,8 @@ export default function NotificationsPopover() {
   const anchorRef = useRef(null);
   const [message, setmessage] = useState([{}]);
   const axios = require('axios');
-  useEffect(() => {
-    axios
+  async function messageinfo() {
+    await axios
       .get('https://carshopserver.vercel.app/message')
       .then((resp) => {
         setmessage(resp.data);
@@ -41,13 +41,16 @@ export default function NotificationsPopover() {
       .catch((err) => {
         console.log(err);
       });
+  }
+  useEffect(() => {
+    messageinfo();
   }, []);
 
   const [notifications, setNotifications] = useState(message);
   const found = message?.filter((obj) => {
-    if (obj!==null){return obj?.isRead === 'true';}
-    
-    
+    if (obj !== null) {
+      return obj?.isRead === 'true';
+    }
   });
   const found2 = message?.filter((obj) => {
     return obj?.isRead === '';
@@ -131,11 +134,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {message?.map((notification, index) => (
+            {Array.isArray(message) ?message?.map((notification, index) => (
               <>
-                <NotificationItem key={index} notification={notification} />
+                <NotificationItem key={index.toString()} notification={notification} />
               </>
-            ))}
+            )):'null'}
           </List>
         </Scrollbar>
 

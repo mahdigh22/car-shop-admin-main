@@ -22,79 +22,98 @@ import {
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
-const URL="https://ip.nf/me.json";
+const URL = 'https://ip.nf/me.json';
 export default function DashboardApp() {
   const theme = useTheme();
   const axios = require('axios');
-  const [deals, setDeals] = React.useState([]||['']);
-  const [users, setUsers] = React.useState([]||['']);
-  const [Products, setProducts] = useState([]||['']);
+  const [deals, setDeals] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [Products, setProducts] = useState([]);
   const [Ids, setIds] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState([{ip:''}]);
+  const [loading, setLoading] = useState(false);
+  const [info, setInfo] = useState([{ ip: '' }]);
 
-  const userNames = deals.map(( name ) => {return name?.carId})
-  const userNames2 = Products.map(( name ) => {return name?.id})
-  const userNames3 = users.map(( name ) => {return name?.clientIp})
-  function getDifference(arr1,arr2){
-    return  arr1
-          // filtering difference in first array with second array
-        ?.filter(x => !arr2.includes(x))
-           // filtering difference in second array with first array
-        .concat(arr2.filter(x => !arr1.includes(x)));
-}
-  
+  const userNames =Array.isArray(deals) ? deals?.map((name) => {
+    return name?.carId;
+  }):[];
+  const userNames2 =Array.isArray(Products) ?  Products?.map((name) => {
+    return name?.id;
+  }):[];
+  const userNames3 =Array.isArray(users) ? users?.map((name) => {
+    return name?.clientIp;
+  }):[];
+  function getDifference(arr1, arr2) {
+    return (
+      arr1
+        // filtering difference in first array with second array
+        ?.filter((x) => !arr2.includes(x))
+        // filtering difference in second array with first array
+        .concat(arr2.filter((x) => !arr1.includes(x)))
+    );
+  }
+
   const found = deals?.filter((obj) => {
     return obj.carId;
   });
- 
- const getGeoInfo = () => {
-  fetch(URL,{method:"get"})
-  .then((response)=>response.json())
-  .then((data)=>{setInfo({...data});
-})
-};
-  
-  React.useEffect(() => {
-getGeoInfo()
-   
-  }, []);
-  React.useEffect(() => {
 
-    axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
-      setDeals(resp.data);
-      
-      //  console.log(Products[5].Image.data)
-    }).catch((err) => {
-      console.log(err);
-    });
-  }, []);
-  React.useEffect(() => {
-    axios.get('https://carshopserver.vercel.app/products').then((resp) => {
-      setProducts(resp.data);
-      setLoading(false);
-      //  console.log(Products[5].Image.data)
-    }).catch((err) => {
-      console.log(err);
-    });
-  }, []);
-  React.useEffect(() => {
-     axios.get('https://carshopserver.vercel.app/users').then(resp => {
+  async function getGeoInfo() {
+    await fetch(URL, { method: 'get' })
+      .then((response) => response.json())
+      .then((data) => {
+        setInfo({ ...data });
+      });
+  }
 
-    setUsers(resp.data);
-    //  console.log(Products[5].Image.data)
-  }).catch((err) => {
-    console.log(err);
-  });
+  async function dealsinfo() {
+    await axios
+      .get('https://carshopserver.vercel.app/sendDeals')
+      .then((resp) => {
+        setDeals(resp.data);
+
+        //  console.log(Products[5].Image.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  async function productsinfo() {
+    await axios
+      .get('https://carshopserver.vercel.app/products')
+      .then((resp) => {
+        setProducts(resp.data);
+        setLoading(false);
+        //  console.log(Products[5].Image.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  async function usersinfo() {
+    await axios
+      .get('https://carshopserver.vercel.app/users')
+      .then((resp) => {
+        setUsers(resp.data);
+        //  console.log(Products[5].Image.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  React.useEffect(() => {
+    usersinfo();
+    productsinfo();
+    dealsinfo();
+    getGeoInfo();
   }, []);
-  console.log('users',info)
-  
+
+  console.log('users', info);
+
   if (loading) {
     return (
       <Page title="Dashboard">
         <Container>
-          <Box sx={{height:'70vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
-          <Loading />
+          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Loading />
           </Box>
         </Container>
       </Page>
@@ -117,11 +136,21 @@ getGeoInfo()
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Cars Number" total={Products?.length} color="warning" icon={'ic:round-directions-car'} />
+            <AppWidgetSummary
+              title="Cars Number"
+              total={Products?.length}
+              color="warning"
+              icon={'ic:round-directions-car'}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Cars without deals" total={getDifference(userNames,userNames2).length} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary
+              title="Cars without deals"
+              total={getDifference(userNames, userNames2).length}
+              color="error"
+              icon={'ant-design:bug-filled'}
+            />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

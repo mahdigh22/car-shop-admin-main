@@ -11,11 +11,14 @@ import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 import Login from './pages/Login';
+import Loading from './components/loading';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export default function App() {
   const [open, setOpen] = useState();
+  const [validate, setValidate] = useState(false);
 
   const axios = require('axios');
   const token = JSON.parse(localStorage.getItem('token'));
@@ -30,23 +33,30 @@ export default function App() {
       })
       .then(async function (response) {
         console.log('token', response);
-        await setOpen(true);
+        setOpen(true);
+        setValidate(true);
       })
       .catch(async function (error) {
         await setOpen(false);
-        
       });
   }
 
   useEffect(() => {
-    getToken()
+    getToken();
   });
   // setInterval(getToken, 2000);
-  
 
-  if (open === false ) {
+  if (validate === false) {
+    return (
+      <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Loading />
+      </Box>
+    );
+  }
+  if (open === false) {
     return <Login />;
   }
+
   return (
     <ThemeProvider>
       <ScrollToTop />
