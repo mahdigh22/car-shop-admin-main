@@ -46,13 +46,7 @@ export default function App() {
   });
   // setInterval(getToken, 2000);
 
-  if (validate === false) {
-    return (
-      <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Loading />
-      </Box>
-    );
-  }
+ 
   if (open === false) {
     return <Login />;
   }
