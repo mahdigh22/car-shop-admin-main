@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // form
 
 // @mui
-import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
+import { Link, Stack, IconButton, InputAdornment, Typography } from '@mui/material';
 // components
 
 import TextField from '@mui/material/TextField';
@@ -60,8 +60,6 @@ export default function LoginForm() {
       });
   }
 
-
- 
   async function CheckIfValid() {
     await getData();
   }
@@ -69,6 +67,8 @@ export default function LoginForm() {
   return (
     <>
       <Stack spacing={3}>
+        <Typography color={'red'}>Email:m@gmail.com</Typography>
+        <Typography color={'red'}>password:1234</Typography>
         <TextField name="email" label="Email address" onChange={saveEmail} />
 
         <TextField

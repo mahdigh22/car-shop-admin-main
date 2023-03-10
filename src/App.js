@@ -17,7 +17,7 @@ import { Box } from '@mui/material';
 // ----------------------------------------------------------------------
 
 export default function App() {
-  const [open, setOpen] = useState();
+  const [open, setOpen] = useState(false);
   const [validate, setValidate] = useState(false);
 
   const axios = require('axios');
