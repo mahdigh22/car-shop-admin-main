@@ -21,13 +21,29 @@ export default function LoginForm() {
   const [Email, setEmail] = useState();
   const [Pass, setPass] = useState();
   const [res, setRes] = useState();
-
+  const [tes, settes] = useState([]);
+ 
   const saveEmail = (event) => {
     setEmail(event.target.value);
   };
   const savePass = (event) => {
     setPass(event.target.value);
   };
+  
+  async function add2() {
+    axios.post('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1.json', { email: 'test', password: 'test', username: 'test' }).then((response) => {
+      console.log(response);
+    });
+  }
+  async function getemailfromfirebase() {
+    await axios.get('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1.json').then((resp) => {
+      settes(resp?.data);
+     
+    });
+  }
+  useEffect(() => {
+    getemailfromfirebase();
+  });
   async function getData() {
     await axios
       .post('https://carshopserver.vercel.app/api/auth', {
@@ -67,8 +83,8 @@ export default function LoginForm() {
   return (
     <>
       <Stack spacing={3}>
-        <Typography color={'red'}>Email:m@gmail.com</Typography>
-        <Typography color={'red'}>password:1234</Typography>
+        <Typography color={'red'}>Email:{tes[0]?.email||'refresh to load'}</Typography>
+        <Typography color={'red'}>Password:{tes[0]?.password||'refresh to load'}</Typography>
         <TextField name="email" label="Email address" onChange={saveEmail} />
 
         <TextField
