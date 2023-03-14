@@ -20,8 +20,9 @@ export default function LoginForm() {
   const axios = require('axios');
   const [Email, setEmail] = useState();
   const [Pass, setPass] = useState();
-  const [res, setRes] = useState();
+  const [products, setProducts] = useState([]);
   const [tes, settes] = useState([]);
+  const [tes2, settes2] = useState([]);
  
   const saveEmail = (event) => {
     setEmail(event.target.value);
@@ -29,9 +30,19 @@ export default function LoginForm() {
   const savePass = (event) => {
     setPass(event.target.value);
   };
-  
+  async function getcars() {
+    await axios.get('https://carshopserver.vercel.app/products').then((resp) => {
+      setProducts(resp.data);
+      //  console.log(Products[5].Image.data)
+    });
+  }
+  useEffect(() => {
+    getcars();
+  }, []);
+       console.log('y',tes2)
+
   async function add2() {
-    axios.post('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1.json', { email: 'test', password: 'test', username: 'test' }).then((response) => {
+    axios.post('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1.json', products).then((response) => {
       console.log(response);
     });
   }
@@ -41,9 +52,16 @@ export default function LoginForm() {
      
     });
   }
+  async function getproductsformfirebase() {
+    await axios.get('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1/-NQRiRvuh0Rno_msM_lg.json').then((resp) => {
+      settes2(resp?.data);
+     
+    });
+  }
   useEffect(() => {
     getemailfromfirebase();
-  });
+    getproductsformfirebase()
+  },[]);
   async function getData() {
     await axios
       .post('https://carshopserver.vercel.app/api/auth', {
@@ -105,7 +123,7 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
+        {/* <Checkbox name="remember" label="Remember me" /> */}
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>

@@ -89,6 +89,7 @@ export default function ShopProductCard({ product }) {
     Drivetrain,
     id,
     Currency,
+    auction,
   } = product;
   const navigate = useNavigate();
   const axios = require('axios');
@@ -97,13 +98,14 @@ export default function ShopProductCard({ product }) {
   const [open, setOpen] = useState(false);
   const [Error, setError] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  // const [auction1, setAuction1] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
 
   const [deals, setDeals] = useState([]);
-  
+
   useEffect(() => {
     axios.get('https://carshopserver.vercel.app/sendDeals').then((resp) => {
       setDeals(resp.data);
@@ -111,8 +113,22 @@ export default function ShopProductCard({ product }) {
     });
   }, []);
 
-  console.log('deals', Error);
+  console.log('deals', auction);
 
+  async function updateproduct(auction, id) {
+    await axios
+      .post('https://carshopserver.vercel.app/updateproductAuction', {
+        auction,
+        id,
+      })
+      .then(function (response) {
+        console.log(response);
+        // window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   async function DeleteCar(id) {
     const filtered = deals.filter((obj) => {
       return obj.carId === id;
@@ -259,15 +275,25 @@ export default function ShopProductCard({ product }) {
         </Box>
 
         <Stack spacing={2} sx={{ p: 3 }}>
-          <Link to="#" color="inherit" underline="hover" component={RouterLink}>
-            <Typography variant="subtitle2" noWrap>
-              {CarName}
-            </Typography>
-          </Link>
-
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+              <Typography variant="subtitle1" noWrap sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                {CarName}
+              </Typography>
+            </Link>
+            <Button
+              variant="contained"
+              onClick={() => {
+                updateproduct(true, id);
+              }}
+              disabled={auction == 1}
+            >
+              {' '}
+              {auction == 0 ? 'Start Auction' : 'Auction Live'}
+            </Button>
+          </Stack>
           {/* <ColorPreview colors={colors} /> */}
           <Stack direction="row" justifyContent="space-between">
-           
             <Typography
               component="span"
               variant="subtitle1"
