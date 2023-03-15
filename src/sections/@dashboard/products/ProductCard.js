@@ -70,6 +70,7 @@ const ProductImgStyle = styled('img')({
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
+ 
 };
 
 export default function ShopProductCard({ product }) {
@@ -91,6 +92,8 @@ export default function ShopProductCard({ product }) {
     Currency,
     auction,
   } = product;
+  
+
   const navigate = useNavigate();
   const axios = require('axios');
   const images = Image.split(',');
@@ -98,7 +101,7 @@ export default function ShopProductCard({ product }) {
   const [open, setOpen] = useState(false);
   const [Error, setError] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
-  // const [auction1, setAuction1] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const theme = useTheme();
@@ -115,6 +118,15 @@ export default function ShopProductCard({ product }) {
 
   console.log('deals', auction);
 
+  async function updateproductfirebase() {
+    await axios
+      .post('https://car-shop-cb0a5-default-rtdb.firebaseio.com/1/-NQbKXDruejAL6yJJAWU/-NQbKo27b8OFRPEXUwx2.json', {
+        auction: auction,
+      })
+      .then((response) => {
+        window.location.reload();
+      });
+  }
   async function updateproduct(auction, id) {
     await axios
       .post('https://carshopserver.vercel.app/updateproductAuction', {
@@ -122,8 +134,7 @@ export default function ShopProductCard({ product }) {
         id,
       })
       .then(function (response) {
-        console.log(response);
-        // window.location.reload();
+        window.location.reload()
       })
       .catch(function (error) {
         console.log(error);
@@ -281,16 +292,32 @@ export default function ShopProductCard({ product }) {
                 {CarName}
               </Typography>
             </Link>
-            <Button
-              variant="contained"
-              onClick={() => {
-                updateproduct(true, id);
-              }}
-              disabled={auction == 1}
-            >
-              {' '}
-              {auction == 0 ? 'Start Auction' : 'Auction Live'}
-            </Button>
+            {auction == 1 ? (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  updateproduct(false, id);
+                
+                  // updateproductfirebase();
+                }}
+                sx={{ backgroundColor: 'red' }}
+              >
+                {' '}
+                cancel auction
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  updateproduct(true, id);
+                  
+                  // updateproductfirebase();
+                }}
+              >
+                {' '}
+                Start Auction
+              </Button>
+            )}
           </Stack>
           {/* <ColorPreview colors={colors} /> */}
           <Stack direction="row" justifyContent="space-between">

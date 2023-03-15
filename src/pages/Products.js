@@ -19,7 +19,9 @@ export default function EcommerceShop() {
   const [sort, setSort] = useState('Newest');
   const [loading, setLoading] = useState(true);
 
+ 
   const axios = require('axios');
+ 
   async function getcars() {
     await axios.get('https://carshopserver.vercel.app/products').then((resp) => {
       setProducts(resp.data);
@@ -56,16 +58,16 @@ export default function EcommerceShop() {
   };
   const handleHighLow = () => {
     getcarsHighLow();
-    setSort('High-Low')
+    setSort('High-Low');
   };
 
   const handleLowHigh = () => {
     getcarsLowHigh();
-    setSort('Low-High')
+    setSort('Low-High');
   };
   const handleNewest = () => {
     getcars();
-    setSort('Newest')
+    setSort('Newest');
   };
   if (loading) {
     return (
@@ -96,11 +98,16 @@ export default function EcommerceShop() {
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
             /> */}
-            <ProductSort handleHighLow={handleHighLow} handleLowHigh={handleLowHigh} sort={sort} handleNewest={handleNewest}/>
+            <ProductSort
+              handleHighLow={handleHighLow}
+              handleLowHigh={handleLowHigh}
+              sort={sort}
+              handleNewest={handleNewest}
+            />
           </Stack>
         </Stack>
 
-        <ProductList products={Products} product={Products} />
+        <ProductList products={Products} product={Products}  />
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>
