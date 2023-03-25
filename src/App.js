@@ -49,13 +49,7 @@ export default function App() {
   });
   
 
-  if (loading)
-    return (
-      <>
-        {' '}
-        <Loading />
-      </>
-    );
+ 
 
   if (open === false) {
     return <Login />;
