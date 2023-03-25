@@ -44,10 +44,10 @@ export default function App() {
       });
   }
 
-  // useEffect(() => {
-  //   getToken();
-  // });
-  setInterval(getToken, 500);
+  useEffect(() => {
+    getToken();
+  });
+  
 
   if (loading)
     return (

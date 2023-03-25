@@ -33,15 +33,21 @@ export default function DashboardApp() {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState([{ ip: '' }]);
 
-  const userNames =Array.isArray(deals) ? deals?.map((name) => {
-    return name?.carId;
-  }):[];
-  const userNames2 =Array.isArray(Products) ?  Products?.map((name) => {
-    return name?.id;
-  }):[];
-  const userNames3 =Array.isArray(users) ? users?.map((name) => {
-    return name?.clientIp;
-  }):[];
+  const userNames = Array.isArray(deals)
+    ? deals?.map((name) => {
+        return name?.carId;
+      })
+    : [];
+  const userNames2 = Array.isArray(Products)
+    ? Products?.map((name) => {
+        return name?.id;
+      })
+    : [];
+  const userNames3 = Array.isArray(users)
+    ? users?.map((name) => {
+        return name?.clientIp;
+      })
+    : [];
   function getDifference(arr1, arr2) {
     return (
       arr1
@@ -229,10 +235,6 @@ export default function DashboardApp() {
               ]}
             />
           </Grid> */}
-
-          
-
-         
         </Grid>
       </Container>
     </Page>
