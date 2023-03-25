@@ -70,7 +70,6 @@ const ProductImgStyle = styled('img')({
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
- 
 };
 
 export default function ShopProductCard({ product }) {
@@ -92,7 +91,6 @@ export default function ShopProductCard({ product }) {
     Currency,
     auction,
   } = product;
-  
 
   const navigate = useNavigate();
   const axios = require('axios');
@@ -134,7 +132,7 @@ export default function ShopProductCard({ product }) {
         id,
       })
       .then(function (response) {
-        window.location.reload()
+        window.location.reload();
       })
       .catch(function (error) {
         console.log(error);
@@ -144,11 +142,11 @@ export default function ShopProductCard({ product }) {
     const filtered = deals.filter((obj) => {
       return obj.carId === id;
     });
-
     {
-      filtered.length > 0
+      filtered.length > 0 || auction == 1
         ? setError(true)
-        : await axios
+        : 
+         await axios
             .post('https://carshopserver.vercel.app/delete', {
               id,
             })
@@ -175,13 +173,33 @@ export default function ShopProductCard({ product }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>This car already have a deal you Can't Delete it !!</DialogTitle>
-        <DialogContent>If you want to delete the car you want to delete before the deals belong for it.</DialogContent>
+        {auction == 1 ? (
+          <>
+            {' '}
+            <DialogTitle>This car already in auction you Can't Delete it !!</DialogTitle>
+            <DialogContent>If you want to delete the car you want to cancel the auction .</DialogContent>
+          </>
+        ) : (
+          <>
+            <DialogTitle>This car already have a deal you Can't Delete it !!</DialogTitle>
+            <DialogContent>
+              If you want to delete the car you want to delete before the deals belong for it.
+            </DialogContent>
+          </>
+        )}
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleDeleteDeal} autoFocus>
-            Delete Deal
-          </Button>
+          {auction == 1 ? (
+            <>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+            </>
+          ) : (
+            <>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button onClick={handleDeleteDeal} autoFocus>
+                Delete Deal
+              </Button>
+            </>
+          )}
         </DialogActions>
       </Dialog>{' '}
       <Modal
@@ -205,6 +223,7 @@ export default function ShopProductCard({ product }) {
                 color="inherit"
                 size="small"
                 onClick={() => {
+
                   DeleteCar(id);
                 }}
               >
@@ -245,6 +264,7 @@ export default function ShopProductCard({ product }) {
             }}
             onClick={() => {
               setOpenAlert(true);
+              console.log('auction', auction);
             }}
           >
             {' '}
@@ -297,7 +317,7 @@ export default function ShopProductCard({ product }) {
                 variant="contained"
                 onClick={() => {
                   updateproduct(false, id);
-                
+
                   // updateproductfirebase();
                 }}
                 sx={{ backgroundColor: 'red' }}
@@ -310,7 +330,7 @@ export default function ShopProductCard({ product }) {
                 variant="contained"
                 onClick={() => {
                   updateproduct(true, id);
-                  
+
                   // updateproductfirebase();
                 }}
               >

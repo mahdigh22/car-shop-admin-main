@@ -102,7 +102,8 @@ export default function NewCar() {
     FuelType: '',
     Seats: '',
     Drivetrain: '',
-    Currency:''
+    Currency:'',
+    auction:0
   });
 
   useEffect(() => {
@@ -122,6 +123,7 @@ export default function NewCar() {
       Seats: Seats,
       Drivetrain: Drivetrain,
       Currency:Currency,
+      auction:0
     });
   });
   const changeHandler = (e) => {
@@ -146,6 +148,7 @@ export default function NewCar() {
       Seats: Seats,
       Drivetrain: Drivetrain,
       Currency:Currency,
+      auction:0
     });
 
     axios
