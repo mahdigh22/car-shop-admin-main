@@ -19,6 +19,7 @@ import { Box } from '@mui/material';
 export default function App() {
   const [open, setOpen] = useState(false);
   const [validate, setValidate] = useState(false);
+  const [loading, setloding] = useState(true);
 
   const axios = require('axios');
   const token = JSON.parse(localStorage.getItem('token'));
@@ -33,20 +34,29 @@ export default function App() {
       })
       .then(async function (response) {
         console.log('token', response);
+        setloding(false);
         setOpen(true);
         setValidate(true);
       })
       .catch(async function (error) {
-        await setOpen(false);
+        await setOpen(false); 
+        setloding(false);
       });
   }
 
-  useEffect(() => {
-    getToken();
-  });
-  // setInterval(getToken, 2000);
+  // useEffect(() => {
+  //   getToken();
+  // });
+  setInterval(getToken, 500);
 
- 
+  if (loading)
+    return (
+      <>
+        {' '}
+        <Loading />
+      </>
+    );
+
   if (open === false) {
     return <Login />;
   }

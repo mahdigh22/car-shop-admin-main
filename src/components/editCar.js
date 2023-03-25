@@ -11,41 +11,32 @@ import storage from 'src/components/firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 export default function EditCar(props) {
-  const { id } = props;
+  const { id,product } = props;
   const navigate = useNavigate();
   const axios = require('axios');
-  const [EditCarData, setEditCarData] = useState([]);
+
   const [Status, setStatus] = React.useState(true);
   const [imgsSrc, setImgsSrc] = useState([]);
 
-  const [CarName, setCarName] = useState();
-  const [Model, setModel] = useState();
-  const [Price, setPrice] = useState();
-  const [Location, setLocation] = useState();
-  const [Transmission, setTransmission] = useState();
-  const [ExteriorColor, setExteriorColor] = useState();
-  const [InteriorColor, setInteriorColor] = useState();
-  const [FuelType, setFuelType] = useState();
-  const [Seats, setSeats] = useState();
-  const [Drivetrain, setDrivetrain] = useState();
-  const [Description, setDescription] = useState();
+  const [CarName, setCarName] = useState('');
+  const [Model, setModel] = useState('');
+  const [Price, setPrice] = useState('');
+  const [Location, setLocation] = useState('');
+  const [Transmission, setTransmission] = useState('');
+  const [ExteriorColor, setExteriorColor] = useState('');
+  const [InteriorColor, setInteriorColor] = useState('');
+  const [FuelType, setFuelType] = useState('');
+  const [Seats, setSeats] = useState('');
+  const [Drivetrain, setDrivetrain] = useState('');
+  const [Description, setDescription] = useState('');
   const [file, setFile] = useState([]);
-  const [progress, setProgress] = useState();
+  const [progress, setProgress] = useState('');
   const [urls, setURLs] = useState('');
   function handleChange(event) {
     // setFile(event.target.files);
     setFile([event.target.files]);
   }
-useEffect(() => {
-    axios
-      .get('https://carshopserver.vercel.app/carId', { params: { id } })
-      .then(function (response) {
-        setEditCarData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+
   const uploadFiles = (files) => {
     const promises = [];
     // console.log('fil',files[0])
@@ -78,7 +69,6 @@ useEffect(() => {
 
       .then((err) => console.log(err));
   };
-  console.log('img', EditCarData[0]);
   const [allDetails, setAllDetails] = useState({
     imgsSrc: [],
     CarName: '',
@@ -111,13 +101,14 @@ useEffect(() => {
       FuelType: FuelType,
       Seats: Seats,
       Drivetrain: Drivetrain,
+      auction:product.auction
     });
-  });
+  },[]);
   const changeHandler = (e) => {
     // setImgsSrc([]);
 
     // setFile([]);
-    console.log('img', imgsSrc);
+    // console.log('img', imgsSrc);
 
     setAllDetails({
       ...allDetails,
@@ -134,6 +125,7 @@ useEffect(() => {
       FuelType: FuelType,
       Seats: Seats,
       Drivetrain: Drivetrain,
+      auction:product.auction
     });
 
     axios
@@ -144,20 +136,21 @@ useEffect(() => {
         console.log(response);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log('error',error);
       });
 
-    console.log('allDetails', allDetails);
-    window.location.reload();
+    // console.log('allDetails', allDetails);
+    // window.location.reload();
   };
   
   // console.log('all',allDetails);
-  // console.log('id',id)
+  console.log('id',product)
   const cancelRequest = () => {
     navigate('/dashboard/products');
   };
   const theme = useTheme();
   const smallScreens = useMediaQuery(theme.breakpoints.down('md'));
+  
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -190,7 +183,7 @@ useEffect(() => {
                       label="Car Name"
                       variant="outlined"
                       fullWidth
-                      // value={EditCarData[0]?.CarName}
+                      defaultValue={product?.CarName}
                       onChange={(e) => {
                         setCarName(e.target.value);
                       }}
@@ -201,7 +194,7 @@ useEffect(() => {
                       label="Location"
                       variant="outlined"
                       fullWidth
-                      defaultValue={EditCarData[0]?.Location}
+                      defaultValue={product?.Location}
                       onChange={(e) => {
                         setLocation(e.target.value);
                       }}
@@ -212,7 +205,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Model"
-                      defaultValue={EditCarData[0]?.Model}
+                      defaultValue={product?.Model}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -222,7 +215,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Transmission"
-                      defaultValue={EditCarData[0]?.Transmission}
+                      defaultValue={product?.Transmission}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -235,7 +228,7 @@ useEffect(() => {
                       id="outlined-basic"
                       label="Price"
                       variant="outlined"
-                      defaultValue={EditCarData[0]?.Price}
+                      defaultValue={product?.Price}
                       fullWidth
                       type="number"
                       onChange={(e) => {
@@ -245,7 +238,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Exterior Color"
-                      defaultValue={EditCarData[0]?.ExteriorColor}
+                      defaultValue={product?.ExteriorColor}
                       variant="outlined"
                       fullWidth
                       type="text"
@@ -258,7 +251,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Interior Color"
-                      defaultValue={EditCarData[0]?.InteriorColor}
+                      defaultValue={product?.InteriorColor}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -268,7 +261,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Fuel Type"
-                      defaultValue={EditCarData[0]?.FuelType}
+                      defaultValue={product?.FuelType}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -280,7 +273,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Seats"
-                      defaultValue={EditCarData[0]?.Seats}
+                      defaultValue={product?.Seats}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -290,7 +283,7 @@ useEffect(() => {
                     <TextField
                       id="outlined-basic"
                       label="Drivetrain"
-                      defaultValue={EditCarData[0]?.Drivetrain}
+                      defaultValue={product?.Drivetrain}
                       variant="outlined"
                       fullWidth
                       onChange={(e) => {
@@ -302,7 +295,7 @@ useEffect(() => {
                   <TextField
                     id="outlined-basic"
                     label="Description"
-                    defaultValue={EditCarData[0]?.Description}
+                    defaultValue={product?.Description}
                     variant="outlined"
                     fullWidth
                     multiline

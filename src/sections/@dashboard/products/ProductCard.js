@@ -209,7 +209,7 @@ export default function ShopProductCard({ product }) {
         aria-describedby="modal-modal-description"
       >
         <Box style={smallScreens ? style2 : style}>
-          <EditCar id={id} />
+          <EditCar id={id} product={product} />
         </Box>
       </Modal>
       <Collapse in={openAlert}>
