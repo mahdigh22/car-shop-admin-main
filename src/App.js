@@ -24,6 +24,7 @@ export default function App() {
   const axios = require('axios');
   const token = JSON.parse(localStorage.getItem('token'));
   async function getToken() {
+    setloding(true);
     await axios
       .get('https://carshopserver.vercel.app/user/validateToken', {
         params: { token: token?.config?.params.token },
@@ -39,18 +40,18 @@ export default function App() {
         setValidate(true);
       })
       .catch(async function (error) {
-        await setOpen(false); 
+        await setOpen(false);
         setloding(false);
       });
   }
 
   useEffect(() => {
     getToken();
-  });
-  
+  }, []);
 
- 
-
+  if (loading === true) {
+    return <Loading />;
+  }
   if (open === false) {
     return <Login />;
   }
